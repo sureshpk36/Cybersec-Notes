@@ -1,0 +1,562 @@
+BLOCK B — Elliptic Curve Cryptography (ECC), PKI & PKI Practical
+
+This block answers one huge question:
+
+> How does my browser know it's really talking to Barclays and not a fake website?
+
+
+
+This is where modern banking trust comes from.
+
+
+---
+
+PART 1 — Elliptic Curve Cryptography (ECC)
+
+Don't worry about the mathematics.
+
+Your manager won't care if you know the equations.
+
+He'll care if you understand:
+
+> Why ECC exists.
+
+
+
+
+---
+
+The Problem with RSA
+
+RSA works well.
+
+But as computing power increases:
+
+Need Bigger RSA Keys
+↓
+More CPU Usage
+↓
+More Storage
+↓
+Slower Operations
+
+
+---
+
+ECC Solution
+
+ECC provides:
+
+Same Security
+↓
+Smaller Keys
+↓
+Faster Operations
+
+
+---
+
+Example
+
+Approximate comparison:
+
+RSA 3072-bit
+≈
+ECC 256-bit
+
+Similar security.
+
+Much smaller key.
+
+
+---
+
+Why Organizations Like ECC
+
+Faster
+
+Less computation.
+
+
+---
+
+Lower Storage
+
+Smaller certificates.
+
+
+---
+
+Better For Mobile Devices
+
+Less battery usage.
+
+
+---
+
+Banking Example
+
+Imagine:
+
+Barclays Mobile App
+
+Millions of users.
+
+ECC helps:
+
+Faster connections
+
+Lower server load
+
+Better performance
+
+
+
+---
+
+Validate
+
+Question:
+
+If RSA already works, why introduce ECC?
+
+Answer:
+
+Efficiency.
+
+Same security.
+
+Less overhead.
+
+
+---
+
+Think Beyond Academics
+
+Question:
+
+Why would a bank care about saving a few milliseconds?
+
+Answer:
+
+Because millions of transactions happen daily.
+
+Small improvements scale massively.
+
+
+---
+
+Question For Manager
+
+> Are organizations gradually moving toward ECC for performance reasons, or does RSA still dominate many environments?
+
+
+
+Excellent practical question.
+
+
+---
+
+PART 2 — PKI (Public Key Infrastructure)
+
+This is probably the most important topic in this block.
+
+
+---
+
+The Problem
+
+Suppose you open:
+
+https://barclays.com
+
+Question:
+
+How do you know it's really Barclays?
+
+Maybe attacker created:
+
+barclays-secure-login.com
+
+Looks identical.
+
+
+---
+
+PKI Solves Trust
+
+Think:
+
+PKI
+=
+Trust Framework
+
+PKI allows computers to verify identities.
+
+
+---
+
+Components of PKI
+
+Remember these.
+
+
+---
+
+Certificate Authority (CA)
+
+Trusted organization.
+
+Examples:
+
+DigiCert
+
+GlobalSign
+
+
+Their job:
+
+Verify identities.
+
+Issue certificates.
+
+
+---
+
+Certificate
+
+Digital identity card.
+
+Contains:
+
+Organization Name
+
+Public Key
+
+Expiration Date
+
+CA Signature
+
+
+
+---
+
+Private Key
+
+Secret.
+
+Owned by organization.
+
+Never shared.
+
+
+---
+
+Real-Life Analogy
+
+Passport System.
+
+
+---
+
+Government:
+
+Certificate Authority.
+
+
+---
+
+Passport:
+
+Certificate.
+
+
+---
+
+Person:
+
+Certificate Owner.
+
+
+---
+
+Browser trusts certificate because it trusts the CA.
+
+
+---
+
+Banking Example
+
+Customer visits:
+
+https://barclays.com
+
+Barclays sends certificate.
+
+Browser asks:
+
+Is certificate valid?
+
+Has it expired?
+
+Is CA trusted?
+
+Has certificate been revoked?
+
+If yes:
+
+Connection Trusted
+
+
+---
+
+Validate
+
+Question:
+
+Can anyone create a certificate?
+
+YES.
+
+Question:
+
+Will browser trust it?
+
+NO.
+
+Needs trusted CA.
+
+
+---
+
+Think Beyond Academics
+
+Question:
+
+What happens if a CA is compromised?
+
+Answer:
+
+Huge trust problem.
+
+Potentially affects many organizations.
+
+This is why PKI is so important.
+
+
+---
+
+PART 3 — PKI Practical
+
+Now let's see how it works.
+
+
+---
+
+Step 1
+
+Organization generates:
+
+Public Key
+Private Key
+
+
+---
+
+Step 2
+
+Creates:
+
+Certificate Signing Request
+(CSR)
+
+
+---
+
+Step 3
+
+Sent to CA.
+
+
+---
+
+Step 4
+
+CA validates organization.
+
+
+---
+
+Step 5
+
+CA issues certificate.
+
+
+---
+
+Step 6
+
+Certificate installed on server.
+
+
+---
+
+Step 7
+
+Customers connect.
+
+Browser validates certificate.
+
+
+---
+
+Banking Example
+
+When customer sees:
+
+🔒 HTTPS
+
+All these PKI steps happened behind the scenes.
+
+
+---
+
+Why Certificate Expiry Exists
+
+Question:
+
+Why not issue certificate forever?
+
+Because:
+
+Organizations change
+
+Keys may be compromised
+
+Security standards evolve
+
+
+
+---
+
+Real Security Incident Example
+
+Imagine:
+
+Private key stolen.
+
+Organization revokes certificate.
+
+Browsers stop trusting it.
+
+PKI helps limit damage.
+
+
+---
+
+Connect Everything
+
+Customer opens Barclays App
+
+↓
+
+Certificate presented
+
+↓
+
+PKI validates identity
+
+↓
+
+ECC/RSA establishes secure key exchange
+
+↓
+
+AES encrypts communication
+
+↓
+
+Hashing protects integrity
+
+↓
+
+Digital signatures verify authenticity
+
+Everything you've studied connects here.
+
+
+---
+
+Questions To Think About
+
+Question 1
+
+Why does browser trust a CA?
+
+
+---
+
+Question 2
+
+What happens if a private key is compromised?
+
+
+---
+
+Question 3
+
+Why are certificates renewed periodically?
+
+
+---
+
+Question 4
+
+Why might a mobile banking app prefer ECC over RSA?
+
+
+---
+
+Excellent Questions For Today's Meeting
+
+Question 1
+
+> What operational challenges arise when managing large numbers of certificates across an enterprise?
+
+
+
+
+---
+
+Question 2
+
+> In practice, what causes more security issues: cryptographic weaknesses or certificate/key management mistakes?
+
+
+
+
+---
+
+Question 3
+
+> How does an organization monitor expiring certificates before they become business-impacting issues?
+
+
+
+
+---
+
+Question 4
+
+> Have you seen examples where security controls were strong, but trust failed because of certificate or key management issues?
+
+
+
+This is exactly the kind of real-world question your manager likes.
+
+
+---
+
+60-Second Summary
+
+> ECC is a modern public-key cryptography approach that provides strong security with smaller keys than RSA, making it efficient for large-scale and mobile environments. PKI establishes trust between systems through certificates issued by trusted Certificate Authorities. In practice, PKI allows browsers and applications to verify identities before establishing secure communication. Together, ECC, certificates, and PKI form the foundation of trusted and secure online banking services.
