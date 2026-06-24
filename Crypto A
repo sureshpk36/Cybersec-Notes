@@ -1,0 +1,558 @@
+BLOCK A — Introduction to Encryption, Symmetric vs Asymmetric Encryption, RSA
+
+This is the foundation of modern cryptography.
+
+Your manager will likely care less about memorizing algorithms and more about:
+
+> Why does this exist?
+
+What problem does it solve?
+
+How is it used in a bank?
+
+
+
+
+---
+
+PART 1 — Introduction to Encryption
+
+Before Encryption
+
+Imagine you're sending:
+
+Transfer ₹50,000
+
+over the internet.
+
+Without encryption:
+
+Customer
+    ↓
+Internet
+    ↓
+Attacker can read
+    ↓
+Bank
+
+Problem:
+
+Anyone intercepting traffic can read the data.
+
+
+---
+
+Define
+
+Encryption is:
+
+> The process of converting readable data (plaintext) into unreadable data (ciphertext) using an algorithm and a key.
+
+
+
+
+---
+
+Example
+
+Plaintext:
+
+HELLO
+
+Encrypted:
+
+7X#92!AB
+
+Only someone with the correct key can decrypt it.
+
+
+---
+
+Why Encryption Exists
+
+Encryption mainly protects:
+
+Confidentiality
+
+From CIA Triad.
+
+Prevents unauthorized access to information.
+
+
+---
+
+Banking Example
+
+Protects:
+
+Customer passwords
+
+Account numbers
+
+Transactions
+
+Personal information
+
+
+
+---
+
+Validate
+
+Question:
+
+Can encryption stop someone from changing data?
+
+Not necessarily.
+
+Encryption protects confidentiality.
+
+Integrity requires:
+
+Hashing
+
+Digital Signatures
+
+
+
+---
+
+Think Beyond Academics
+
+Question:
+
+Why do banks encrypt customer data even inside internal networks?
+
+Answer:
+
+Because threats can come from:
+
+Insiders
+
+Compromised systems
+
+Misconfigured access
+
+
+Not only the internet.
+
+
+---
+
+PART 2 — Symmetric Encryption
+
+
+---
+
+Define
+
+Uses:
+
+ONE KEY
+
+for:
+
+Encryption
+
+Decryption
+
+
+
+---
+
+Real-Life Analogy
+
+You and your friend share:
+
+Secret Password = BARCLAYS123
+
+You lock a box.
+
+Friend uses same password to unlock.
+
+Same key.
+
+
+---
+
+Example
+
+AES
+
+(Advanced Encryption Standard)
+
+Most important modern encryption algorithm.
+
+
+---
+
+Flow
+
+Plaintext
+↓
+AES + Key
+↓
+Ciphertext
+↓
+AES + Same Key
+↓
+Plaintext
+
+
+---
+
+Advantages
+
+Fast
+
+Efficient
+
+Handles large amounts of data
+
+
+---
+
+Banking Example
+
+After HTTPS connection is established:
+
+Most communication uses AES.
+
+Because it's fast.
+
+
+---
+
+Limitation
+
+Big problem:
+
+How do we securely share the key?
+
+If attacker steals key:
+
+Encryption becomes useless.
+
+
+---
+
+Validate
+
+Question:
+
+If AES is so good, why don't we only use AES?
+
+Answer:
+
+Because secure key exchange is difficult.
+
+
+---
+
+PART 3 — Asymmetric Encryption
+
+Created to solve:
+
+Key Distribution Problem
+
+
+---
+
+Define
+
+Uses:
+
+Public Key
++
+Private Key
+
+Two keys.
+
+
+---
+
+Public Key
+
+Can be shared.
+
+Everyone can see it.
+
+
+---
+
+Private Key
+
+Secret.
+
+Only owner knows it.
+
+
+---
+
+Real-Life Analogy
+
+Mailbox.
+
+Public Key:
+
+Mail Slot
+
+Anyone can drop mail.
+
+
+---
+
+Private Key:
+
+Mailbox Key
+
+Only owner opens it.
+
+
+---
+
+Flow
+
+Customer:
+
+Encrypt using Public Key
+
+Bank:
+
+Decrypt using Private Key
+
+
+---
+
+Advantage
+
+No need to share secret key beforehand.
+
+
+---
+
+Limitation
+
+Much slower than AES.
+
+
+---
+
+Banking Example
+
+When browser first connects to Barclays:
+
+Asymmetric cryptography helps establish trust.
+
+
+---
+
+Validate
+
+Question:
+
+If asymmetric encryption is better, why not use it for everything?
+
+Answer:
+
+Because it's computationally expensive.
+
+Too slow.
+
+
+---
+
+PART 4 — RSA
+
+Most famous asymmetric algorithm.
+
+
+---
+
+Define
+
+RSA is a public-key cryptography algorithm based on the mathematical difficulty of factoring large prime numbers.
+
+Don't memorize the math.
+
+Understand the purpose.
+
+
+---
+
+RSA Provides
+
+Confidentiality
+
+Encrypt data.
+
+
+---
+
+Authentication
+
+Verify identity.
+
+
+---
+
+Digital Signatures
+
+Verify sender.
+
+
+---
+
+Banking Example
+
+When you visit:
+
+https://barclays.com
+
+RSA may be used during:
+
+TLS handshake
+
+Certificate verification
+
+Key exchange
+
+
+
+---
+
+Why RSA Matters
+
+RSA solves:
+
+How can strangers communicate securely?
+
+without meeting beforehand.
+
+
+---
+
+Real Banking Flow
+
+Customer opens banking app.
+
+↓
+
+Server presents certificate.
+
+↓
+
+RSA/ECC helps establish trust.
+
+↓
+
+Session key generated.
+
+↓
+
+AES protects ongoing communication.
+
+
+---
+
+Connect Everything Together
+
+Symmetric Encryption
+
+AES
+
+Fast
+
+Protects large amounts of data.
+
+
+---
+
+Asymmetric Encryption
+
+RSA
+
+Securely exchanges keys.
+
+
+---
+
+Combined
+
+Modern HTTPS:
+
+RSA/ECC
+↓
+Exchange Session Key
+↓
+AES
+↓
+Secure Communication
+
+
+---
+
+Questions To Think About
+
+Question 1
+
+Why is AES used for ongoing communication instead of RSA?
+
+
+---
+
+Question 2
+
+What happens if an attacker steals the encryption key?
+
+
+---
+
+Question 3
+
+Can strong encryption still fail because of poor key management?
+
+
+---
+
+Question 4
+
+Why do modern systems use both symmetric and asymmetric encryption together?
+
+
+---
+
+Excellent Questions For Your Manager
+
+Question 1
+
+> In enterprise environments, do cryptography failures usually occur because of weak algorithms or because of poor implementation and key management?
+
+
+
+
+---
+
+Question 2
+
+> With RSA and ECC both available, how do organizations decide which approach to use?
+
+
+
+
+---
+
+Question 3
+
+> Which cryptography concepts are most important for software developers to understand when building secure applications?
+
+
+
+(This is a very good question because of your backend background.)
+
+
+---
+
+60-Second Meeting Summary
+
+> Encryption protects confidentiality by converting plaintext into ciphertext. Symmetric encryption uses a single shared key and is efficient for protecting large amounts of data, while asymmetric encryption uses public and private keys to solve the key distribution problem. RSA is a widely used asymmetric algorithm that enables secure communication, authentication, and digital signatures. Modern systems combine both approaches—using RSA or ECC for key exchange and AES for efficient data encryption.
