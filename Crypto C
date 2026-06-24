@@ -1,0 +1,568 @@
+BLOCK C — Hashing, SHA-1, MD5 & Rainbow Tables
+
+This block is one of the most important for cybersecurity.
+
+Why?
+
+Because banks don't just need to protect data.
+
+They need to verify:
+
+Has the data changed?
+
+And they need to store passwords securely.
+
+
+---
+
+BIG PICTURE
+
+Remember:
+
+Encryption
+
+Protects confidentiality.
+
+
+---
+
+Hashing
+
+Protects integrity.
+
+
+---
+
+Think:
+
+Encryption
+=
+Hide Data
+
+Hashing
+=
+Detect Changes
+
+
+---
+
+PART 1 — Introduction to Hashing
+
+
+---
+
+Define
+
+Hashing converts data into a fixed-size output.
+
+Example:
+
+HELLO
+↓
+Hash
+↓
+3733cd977ff...
+
+
+---
+
+Important Property
+
+Same input:
+
+HELLO
+
+Always gives:
+
+3733cd977ff...
+
+
+---
+
+Change one character:
+
+HELLo
+
+Produces a completely different hash.
+
+
+---
+
+Why Is This Useful?
+
+Suppose:
+
+Customer transfers:
+
+₹10,000
+
+Hash generated.
+
+
+---
+
+Attacker changes:
+
+₹100,000
+
+Hash changes.
+
+Integrity violation detected.
+
+
+---
+
+Banking Example
+
+Passwords.
+
+Bank should NEVER store:
+
+Password123
+
+Instead:
+
+Password123
+↓
+Hash
+↓
+Store Hash
+
+
+---
+
+Validate
+
+Question:
+
+Can hashes be decrypted?
+
+NO.
+
+Hashing is one-way.
+
+
+---
+
+Question For Manager
+
+> Besides password storage, where is hashing most commonly used in enterprise environments?
+
+
+
+
+---
+
+PART 2 — SHA-1
+
+
+---
+
+Define
+
+SHA = Secure Hash Algorithm
+
+SHA-1 was once widely trusted.
+
+
+---
+
+Purpose
+
+Generate unique fingerprints for data.
+
+
+---
+
+Example:
+
+File
+↓
+SHA-1 Hash
+
+
+---
+
+Problem
+
+Researchers found:
+
+Collisions
+
+
+---
+
+Collision
+
+Two different inputs produce same hash.
+
+
+---
+
+Example:
+
+File A
+↓
+Hash X
+
+File B
+↓
+Hash X
+
+Dangerous.
+
+
+---
+
+Why It Matters
+
+Hashes are used to verify integrity.
+
+If collisions exist:
+
+Trust decreases.
+
+
+---
+
+Security Lesson
+
+Algorithms don't become bad overnight.
+
+Computers improve.
+
+Attack methods improve.
+
+
+---
+
+Banking Application
+
+Most modern systems avoid SHA-1 for security-sensitive uses.
+
+
+---
+
+PART 3 — MD5
+
+
+---
+
+Define
+
+MD5 is another hashing algorithm.
+
+Very popular historically.
+
+
+---
+
+Why It Was Popular
+
+Fast.
+
+Easy to implement.
+
+Widely supported.
+
+
+---
+
+Problem
+
+Now considered broken.
+
+Collisions can be generated.
+
+
+---
+
+Security Reality
+
+Today:
+
+MD5
+=
+Not suitable
+for security
+
+
+---
+
+Validate
+
+Question:
+
+Why do some systems still contain MD5?
+
+Answer:
+
+Legacy systems.
+
+Old applications.
+
+Backward compatibility.
+
+
+---
+
+Manager-Type Insight
+
+Question:
+
+Did MD5 fail because mathematics changed?
+
+NO.
+
+Computing power improved.
+
+Researchers discovered weaknesses.
+
+
+---
+
+Question For Manager
+
+> How do organizations manage the transition away from deprecated cryptographic algorithms in large legacy environments?
+
+
+
+Very practical.
+
+
+---
+
+PART 4 — Rainbow Tables
+
+This is a favorite interview topic.
+
+
+---
+
+Problem
+
+Imagine attacker steals:
+
+Password Hashes
+
+Good news:
+
+No plaintext passwords.
+
+
+---
+
+Bad news:
+
+Attackers can still attempt recovery.
+
+
+---
+
+What Is A Rainbow Table?
+
+A giant precomputed database.
+
+Example:
+
+Hash
+↓
+Original Password
+
+
+---
+
+Example:
+
+5f4dcc3b5aa...
+↓
+password
+
+
+---
+
+Instead of guessing passwords one by one:
+
+Attackers look them up.
+
+Much faster.
+
+
+---
+
+Banking Example
+
+Database breach.
+
+Attacker obtains:
+
+Username
+Hash
+
+Rainbow tables help crack weak passwords.
+
+
+---
+
+Defense: Salting
+
+Most important concept.
+
+
+---
+
+What Is A Salt?
+
+Random value added before hashing.
+
+
+---
+
+Example:
+
+Without Salt
+
+Password123
+↓
+Hash
+
+Same password.
+
+Same hash.
+
+
+---
+
+With Salt
+
+Password123
++
+Random Salt
+↓
+Hash
+
+Different users get different hashes.
+
+
+---
+
+Result
+
+Rainbow tables become ineffective.
+
+
+---
+
+Why Banks Use Salting
+
+Protect customer credentials.
+
+Reduce effectiveness of database breaches.
+
+
+---
+
+Connect Everything
+
+Hashing
+↓
+Integrity
+
+SHA-1
+↓
+Old Hash Algorithm
+
+MD5
+↓
+Broken Legacy Hash
+
+Rainbow Tables
+↓
+Attack Technique
+
+Salt
+↓
+Defense
+
+
+---
+
+Think Beyond Academics
+
+Question:
+
+Why do organizations still care about MD5 and SHA-1 if they're old?
+
+Answer:
+
+Because legacy systems still exist.
+
+Many security incidents occur when outdated cryptographic controls remain in production longer than intended.
+
+Your manager will like that answer.
+
+
+---
+
+Questions To Think About
+
+Question 1
+
+Why can't encryption be used instead of hashing for password storage?
+
+
+---
+
+Question 2
+
+Why do collisions make hashing algorithms dangerous?
+
+
+---
+
+Question 3
+
+How does salting protect against rainbow tables?
+
+
+---
+
+Question 4
+
+Why might large organizations struggle to remove old cryptographic algorithms?
+
+
+---
+
+Excellent Questions For Today's Meeting
+
+Question 1
+
+> What challenges do organizations face when migrating away from deprecated algorithms like MD5 or SHA-1?
+
+
+
+
+---
+
+Question 2
+
+> Besides salting, what controls are commonly used to strengthen password protection?
+
+
+
+
+---
+
+Question 3
+
+> In modern enterprise environments, are weak cryptographic algorithms usually found because of legacy systems or configuration mistakes?
+
+
+
+
+---
+
+60-Second Summary
+
+> Hashing is used to verify integrity and securely store passwords by converting data into a fixed-length, one-way output. Algorithms like SHA-1 and MD5 were widely used historically but are now considered weak because collision attacks have become practical. Rainbow tables are precomputed databases that help attackers recover passwords from hashes, which is why modern systems use salting and stronger hashing approaches. The key lesson is that cryptographic controls must evolve over time as computing power and attack techniques improve.
