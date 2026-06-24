@@ -1,0 +1,504 @@
+BLOCK D — Steganography & WEP Cracking
+
+This is the final block.
+
+Your manager will probably enjoy this one because it focuses on:
+
+> Why security controls fail.
+
+
+
+and
+
+> The difference between hiding data and protecting data.
+
+
+
+
+---
+
+PART 1 — Steganography
+
+Most beginners confuse this with encryption.
+
+They are NOT the same.
+
+
+---
+
+Encryption
+
+Goal:
+
+Hide Content
+
+Everyone can see a message exists.
+
+But they can't read it.
+
+
+---
+
+Example:
+
+HELLO
+↓
+Encrypted
+↓
+A7#92KLM
+
+Message visible.
+
+Content hidden.
+
+
+---
+
+Steganography
+
+Goal:
+
+Hide Existence
+
+People don't even know a message exists.
+
+
+---
+
+Example
+
+Secret message hidden inside:
+
+Image
+
+Audio
+
+Video
+
+PDF
+
+
+Normal image:
+
+cat.jpg
+
+May secretly contain:
+
+Attack at dawn
+
+
+---
+
+Real-Life Analogy
+
+Encryption:
+
+Locked safe.
+
+People know something valuable is inside.
+
+
+---
+
+Steganography:
+
+Hidden compartment.
+
+People don't even know something is there.
+
+
+---
+
+Banking Application
+
+Rarely used directly.
+
+More commonly seen in:
+
+Malware
+
+Hidden commands.
+
+
+---
+
+Data Exfiltration
+
+Attackers hiding stolen data.
+
+
+---
+
+Threat Actor Communication
+
+Covert communication channels.
+
+
+---
+
+Validate
+
+Question:
+
+If I hide a message in an image but don't encrypt it, what happens?
+
+Answer:
+
+If discovered, attacker can read it.
+
+
+---
+
+Best Practice
+
+Often:
+
+Encrypt
+↓
+Hide
+
+Use both.
+
+
+---
+
+Manager-Level Insight
+
+Question:
+
+Which is stronger?
+
+Encryption or Steganography?
+
+Answer:
+
+Wrong question.
+
+Different goals.
+
+Encryption protects confidentiality.
+
+Steganography hides existence.
+
+
+---
+
+Excellent Question For Manager
+
+> Have you seen examples where attackers used steganography to evade detection or hide data?
+
+
+
+Very practical question.
+
+
+---
+
+PART 2 — WEP Cracking
+
+This is one of the most important historical security lessons.
+
+
+---
+
+What is WEP?
+
+WEP
+
+(Wired Equivalent Privacy)
+
+Early WiFi security protocol.
+
+Goal:
+
+Protect wireless networks.
+
+
+---
+
+Original Idea
+
+WiFi
+↓
+Encryption
+↓
+Secure Network
+
+Sounded good.
+
+
+---
+
+Reality
+
+Weak implementation.
+
+Weak cryptography.
+
+Design flaws.
+
+
+---
+
+Result
+
+Attackers could recover WiFi keys.
+
+
+---
+
+Why Did WEP Fail?
+
+Not because encryption itself is bad.
+
+Because:
+
+Weak Key Management
+
+
+---
+
+Repeated Keys
+
+
+---
+
+Design Flaws
+
+
+---
+
+Predictable Patterns
+
+
+---
+
+Security Lesson
+
+Your manager will LOVE this lesson.
+
+Remember:
+
+> Security often fails because of implementation, not because of the algorithm itself.
+
+
+
+
+---
+
+Example
+
+Imagine:
+
+Strong cryptography.
+
+But:
+
+Password = admin123
+
+Still insecure.
+
+
+---
+
+Modern Equivalent
+
+Organizations today may have:
+
+Strong AES
+
+Strong PKI
+
+Strong Authentication
+
+
+But poor:
+
+Configuration
+
+Key management
+
+Access controls
+
+
+Result:
+
+Security incident.
+
+
+---
+
+Banking Application
+
+Banks don't use WEP.
+
+But WEP teaches an important principle:
+
+> Technology that was once secure can become insecure over time.
+
+
+
+
+---
+
+Why Security Teams Care About Legacy Systems
+
+Old technologies remain in production.
+
+Examples:
+
+Old algorithms
+
+Old certificates
+
+Unsupported software
+
+
+These create risk.
+
+
+---
+
+Think Beyond Academics
+
+Question:
+
+Why wasn't WEP immediately replaced?
+
+Answer:
+
+Because replacing technology across large organizations is expensive and complex.
+
+This is a very real business challenge.
+
+
+---
+
+Connect The Entire Module
+
+Encryption
+
+Protects data.
+
+
+---
+
+RSA/ECC
+
+Secure key exchange.
+
+
+---
+
+PKI
+
+Creates trust.
+
+
+---
+
+Hashing
+
+Protects integrity.
+
+
+---
+
+Rainbow Tables
+
+Attack passwords.
+
+
+---
+
+Steganography
+
+Hide existence of data.
+
+
+---
+
+WEP
+
+Example of cryptographic failure.
+
+
+---
+
+Questions To Think About
+
+Question 1
+
+Why might an attacker prefer steganography over encryption?
+
+
+---
+
+Question 2
+
+Can strong cryptography still fail because of poor implementation?
+
+
+---
+
+Question 3
+
+Why do organizations struggle to remove legacy technologies?
+
+
+---
+
+Question 4
+
+What lessons from WEP are still relevant today?
+
+
+---
+
+Excellent Questions For Today's Meeting
+
+Question 1
+
+> Have you seen examples where strong security controls failed because of configuration or implementation issues rather than weaknesses in the underlying technology?
+
+
+
+
+---
+
+Question 2
+
+> What makes retiring legacy security technologies difficult in large organizations?
+
+
+
+
+---
+
+Question 3
+
+> In modern enterprise environments, what types of cryptographic risks concern teams more: algorithm weaknesses or operational mistakes?
+
+
+
+
+---
+
+90-Second Summary For Your Manager
+
+> Steganography and encryption solve different problems. Encryption hides the contents of data, while steganography hides the existence of data itself. Steganography is commonly associated with malware, covert communication, and data exfiltration. WEP is an important historical example showing that security controls can fail because of weak implementation and design decisions, even when encryption is present. The broader lesson is that security depends not only on strong algorithms but also on proper implementation, configuration, and lifecycle management.
+
+
+
+
+---
+
+Most likely question your manager may ask
+
+> "What's the biggest lesson from WEP?"
+
+
+
+Answer:
+
+> The biggest lesson is that security can fail even when encryption exists. Weak implementation, poor key management, and design flaws can make a system vulnerable despite using cryptographic controls. This lesson remains relevant in modern enterprise security.
