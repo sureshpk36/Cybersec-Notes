@@ -1,0 +1,439 @@
+These are the notes I would write if I were preparing for a discussion with your manager. They are concise, interconnected, and focus on understanding rather than copying the module.
+
+
+---
+
+Active Directory (AD)
+
+Definition
+
+Microsoft's centralized Identity and Access Management (IAM) service.
+
+Manages:
+
+Users
+
+Computers
+
+Groups
+
+Authentication
+
+Authorization
+
+Security Policies
+
+
+
+Purpose: Centralized management of enterprise identities and access.
+
+
+---
+
+Authentication vs Authorization
+
+Authentication
+
+Verifies identity.
+
+"Who are you?"
+
+
+Example:
+
+Username + Password
+
+Kerberos
+
+
+Authorization
+
+Determines permissions.
+
+"What can you access?"
+
+
+Example:
+
+Shared Drive
+
+Internal Application
+
+Database
+
+
+
+---
+
+Active Directory Objects
+
+User
+
+Employee identity.
+
+Example:
+
+suresh.pk
+
+
+
+---
+
+Computer
+
+Domain-joined workstation.
+
+Example:
+
+BARCLAYS-LAPTOP-01
+
+
+
+---
+
+Group
+
+Collection of users.
+
+Purpose:
+
+Simplify permission management.
+
+
+
+---
+
+Organizational Unit (OU)
+
+Logical container for users and computers.
+
+Example:
+
+Technology
+
+Developers
+
+Security
+
+Infrastructure
+
+
+
+---
+
+Domain Join (Adding a Machine)
+
+Purpose:
+
+Register workstation with AD.
+
+Establish trust.
+
+Apply enterprise security controls.
+
+
+Benefits:
+
+Centralized login
+
+Security policies
+
+Software deployment
+
+Device management
+
+
+
+---
+
+NTLM
+
+Older authentication protocol.
+
+Characteristics:
+
+Password challenge-response
+
+Legacy support
+
+Less secure
+
+Vulnerable to attacks
+
+
+Still exists because of legacy applications.
+
+
+---
+
+Kerberos
+
+Modern authentication protocol.
+
+Uses:
+
+Ticket-based authentication
+
+Single Sign-On (SSO)
+
+
+Advantages:
+
+More secure
+
+Password not repeatedly transmitted
+
+Faster enterprise authentication
+
+
+
+---
+
+Group Policy (GPO)
+
+Definition:
+
+Centralized security and configuration rules.
+
+Examples:
+
+Password policy
+
+Screen lock
+
+Firewall
+
+USB restrictions
+
+Software installation
+
+BitLocker
+
+
+Benefits:
+
+Consistent configuration
+
+Easy administration
+
+Rapid security response
+
+
+
+---
+
+Active Directory Replication
+
+Purpose:
+
+Synchronize AD information between Domain Controllers.
+
+Replicates:
+
+Users
+
+Passwords
+
+Groups
+
+Policies
+
+Computer accounts
+
+
+Importance:
+
+Consistent authentication
+
+Business continuity
+
+Security consistency
+
+
+
+---
+
+Managing Workstations
+
+Lifecycle:
+
+New Laptop
+
+↓
+
+Join Active Directory
+
+↓
+
+Apply Group Policies
+
+↓
+
+User Login
+
+↓
+
+Updates & Monitoring
+
+↓
+
+Employee Leaves
+
+↓
+
+Disable Account & Remove Access
+
+
+---
+
+Why Active Directory Is Important
+
+Provides:
+
+Centralized Identity
+
+Authentication
+
+Authorization
+
+Access Control
+
+Policy Enforcement
+
+
+Supports:
+
+Principle of Least Privilege
+
+Defense in Depth
+
+Enterprise Security
+
+
+
+---
+
+Active Directory Security Risks
+
+Weak passwords
+
+Excessive privileges
+
+Stale accounts
+
+Misconfigured Group Policies
+
+Unpatched Domain Controllers
+
+Compromised credentials
+
+
+
+---
+
+Security Controls
+
+MFA
+
+Least Privilege
+
+Strong Password Policy
+
+Regular Audits
+
+Security Monitoring
+
+Timely Account Deactivation
+
+Patch Management
+
+
+
+---
+
+Banking Example
+
+Employee logs into Barclays laptop
+
+↓
+
+Kerberos authenticates user
+
+↓
+
+Group Policy applies security settings
+
+↓
+
+Authorization checks permissions
+
+↓
+
+Access granted
+
+↓
+
+Logs generated
+
+↓
+
+Security team monitors activity
+
+
+---
+
+Important Connections
+
+CIA Triad
+
+Confidentiality → Authentication & Access Control
+
+Integrity → Group Policy, Auditing
+
+Availability → AD Replication
+
+
+
+---
+
+Principle of Least Privilege
+
+Users receive only the permissions necessary for their role.
+
+
+---
+
+Defense in Depth
+
+AD + MFA + Endpoint Security + Monitoring + Group Policy.
+
+
+---
+
+Key Takeaways
+
+Active Directory is the foundation of enterprise identity.
+
+Kerberos is preferred over NTLM because it uses secure ticket-based authentication.
+
+Group Policy enforces security consistently across thousands of devices.
+
+Replication keeps Domain Controllers synchronized.
+
+AD is a high-value target because compromising it can provide broad access across the organization.
+
+Enterprise security depends not only on technology but also on strong identity management, least privilege, continuous monitoring, and timely removal of unnecessary access.
+
+
+
+---
+
+⭐ Manager-Level Insight (Write this separately)
+
+This is the kind of insight your manager has been encouraging throughout your internship:
+
+> Active Directory is not just a user database. It is the backbone of enterprise identity and access management. It connects authentication (Kerberos), authorization (groups and permissions), centralized policy enforcement (Group Policy), and security principles like least privilege and defense in depth. Because it controls access to critical enterprise resources, securing Active Directory is one of the highest priorities in a large organization such as Barclays.
+
+
+
+This summary is the one I'd revise before every discussion with your manager because it connects the concepts instead of treating them as isolated topics.
