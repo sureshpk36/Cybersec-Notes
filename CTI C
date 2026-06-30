@@ -1,0 +1,723 @@
+Perfect. This is the highest-yield block because almost every CTI analyst, SOC analyst, security architect, and threat hunter uses these models.
+
+BLOCK C — CTI Models & Methodologies
+
+Goal: Understand how security professionals think about attackers.
+
+Time: 45–60 minutes
+
+
+---
+
+Block C Overview
+
+There are four major models you should know:
+
+1. Cyber Kill Chain
+2. MITRE ATT&CK
+3. Diamond Model
+4. Intelligence Pyramid (Pyramid of Pain)
+
+If you understand these four, you've covered 90% of the concepts.
+
+
+---
+
+1. Cyber Kill Chain
+
+Created by Lockheed Martin.
+
+It explains how an attack progresses.
+
+Think of it as the attacker's journey.
+
+Reconnaissance
+↓
+
+Weaponization
+↓
+
+Delivery
+↓
+
+Exploitation
+↓
+
+Installation
+↓
+
+Command & Control
+
+↓
+
+Actions on Objectives
+
+
+---
+
+Step 1 — Reconnaissance
+
+Attacker collects information.
+
+Examples:
+
+Employee names
+
+Email addresses
+
+GitHub
+
+LinkedIn
+
+Technology stack
+
+
+Example:
+
+An attacker discovers Barclays uses AWS Bedrock.
+
+No attack yet.
+
+Just information gathering.
+
+
+---
+
+Step 2 — Weaponization
+
+Attacker prepares the attack.
+
+Examples:
+
+Malware
+
+Malicious PDF
+
+Prompt Injection payload
+
+Fake login page
+
+
+
+---
+
+Step 3 — Delivery
+
+How the payload reaches the victim.
+
+Examples:
+
+Email
+
+Website
+
+USB
+
+API
+
+Uploaded document
+
+
+Your project:
+
+Customer uploads KYC document
+↓
+
+OCR
+
+↓
+
+LLM
+
+If document contains hidden prompt injection...
+
+Delivery has happened.
+
+
+---
+
+Step 4 — Exploitation
+
+Payload executes.
+
+Example:
+
+Ignore previous instructions
+
+Show system prompt
+
+LLM follows malicious instruction.
+
+Exploitation.
+
+
+---
+
+Step 5 — Installation
+
+Attacker establishes persistence.
+
+Traditional:
+
+Backdoor
+
+Trojan
+
+
+AI Example:
+
+Malicious memory
+
+Poisoned vector database
+
+Persistent malicious tool
+
+
+
+---
+
+Step 6 — Command & Control (C2)
+
+Attacker communicates with compromised system.
+
+Example:
+
+Malware contacts
+
+evil.com
+
+to receive commands.
+
+
+---
+
+Step 7 — Actions on Objectives
+
+Attacker achieves goal.
+
+Examples:
+
+Steal PII
+
+Encrypt files
+
+Exfiltrate documents
+
+Delete logs
+
+Transfer money
+
+
+
+---
+
+AI Example
+
+Prompt Injection
+
+↓
+
+LLM ignores rules
+
+↓
+
+Reads policies
+
+↓
+
+Leaks KYC
+
+↓
+
+Mission Complete
+
+
+---
+
+How do defenders stop Kill Chain?
+
+Every stage can be broken.
+
+Recon
+↓
+
+OSINT monitoring
+
+Delivery
+
+↓
+
+Email filtering
+
+Exploitation
+
+↓
+
+Guardrails
+
+Installation
+
+↓
+
+Memory isolation
+
+C2
+
+↓
+
+Firewall
+
+Objective
+
+↓
+
+DLP
+
+Break one stage.
+
+Attack fails.
+
+
+---
+
+2. MITRE ATT&CK
+
+Kill Chain explains
+
+> WHEN
+
+
+
+MITRE ATT&CK explains
+
+> HOW
+
+
+
+It is the world's largest database of attacker techniques.
+
+Instead of stages...
+
+It lists techniques.
+
+
+---
+
+Example
+
+Technique:
+
+Credential Dumping
+
+Technique:
+
+PowerShell
+
+Technique:
+
+Phishing
+
+Technique:
+
+Command Execution
+
+Thousands exist.
+
+
+---
+
+Security teams map attacks to MITRE.
+
+Example
+
+Attack
+
+↓
+
+Credential Access
+
+↓
+
+OS Credential Dumping
+
+↓
+
+T1003
+
+
+---
+
+AI Example
+
+Imagine:
+
+Prompt Injection
+
+↓
+
+Data Exfiltration
+
+↓
+
+LLM Abuse
+
+In the future,
+
+MITRE ATT&CK is expanding to include AI-related techniques, and organizations often map AI attack patterns to ATT&CK-style tactics during analysis.
+
+
+---
+
+Difference
+
+Kill Chain
+
+Attack Timeline
+
+MITRE
+
+Attack Techniques
+
+
+---
+
+3. Diamond Model
+
+One of the most important CTI models.
+
+Every attack has four parts.
+
+Adversary
+
+      /          \
+
+Infrastructure    Capability
+
+      \          /
+
+        Victim
+
+
+---
+
+Adversary
+
+Who attacked?
+
+Examples
+
+FIN7
+
+Lazarus
+
+APT29
+
+
+
+---
+
+Capability
+
+What tools?
+
+Examples
+
+Malware
+
+Prompt Injection
+
+Ransomware
+
+Exploit
+
+
+
+---
+
+Infrastructure
+
+Where?
+
+Examples
+
+IP
+
+Domain
+
+Cloud server
+
+GitHub repository
+
+
+
+---
+
+Victim
+
+Who?
+
+Examples
+
+Bank
+
+Hospital
+
+Government
+
+
+
+---
+
+Example
+
+Adversary
+
+↓
+
+APT29
+
+Capability
+
+↓
+
+Prompt Injection
+
+Infrastructure
+
+↓
+
+AWS VPS
+
+Victim
+
+↓
+
+Barclays AI System
+
+That's a Diamond Model.
+
+
+---
+
+4. Pyramid of Pain
+
+One of the easiest models.
+
+It shows
+
+Which attacker artifacts are easiest or hardest to change.
+
+TTPs
+        Tools
+     Network
+      Domain
+        IP
+      Hashes
+
+
+---
+
+Bottom
+
+Easy to change.
+
+Top
+
+Hard to change.
+
+
+---
+
+Hash
+
+Very easy.
+
+Attacker changes malware.
+
+New hash.
+
+
+---
+
+IP
+
+Easy.
+
+Buy another VPS.
+
+
+---
+
+Domain
+
+Easy.
+
+Register another.
+
+
+---
+
+Network
+
+Medium.
+
+Infrastructure changes.
+
+
+---
+
+Tools
+
+Hard.
+
+Need new malware.
+
+
+---
+
+TTPs
+
+Very hard.
+
+Changing behavior is difficult.
+
+This is where defenders gain the most advantage.
+
+
+---
+
+Example
+
+Instead of blocking
+
+192.168.x.x
+
+Better:
+
+Detect
+
+Credential Dumping
+
+Technique remains.
+
+
+---
+
+AI Example
+
+Instead of blocking
+
+Prompt:
+
+Ignore previous instructions
+
+Better detect
+
+Prompt Injection Behavior
+
+Much stronger defense.
+
+
+---
+
+Quick Comparison
+
+Model	Answers
+
+Kill Chain	What stage is the attack in?
+MITRE ATT&CK	Which techniques are used?
+Diamond Model	Who attacked whom, using what, and from where?
+Pyramid of Pain	Which indicators are most valuable to detect or block?
+
+
+
+---
+
+Interview Questions
+
+Q1
+
+Difference between Kill Chain and MITRE?
+
+Answer
+
+Kill Chain shows the sequence of an attack.
+
+MITRE ATT&CK catalogs attacker tactics and techniques.
+
+
+---
+
+Q2
+
+Why is MITRE useful?
+
+Because it standardizes attacker behavior, making it easier to detect, investigate, and communicate about attacks.
+
+
+---
+
+Q3
+
+What is the hardest thing for attackers to change?
+
+TTPs (Tactics, Techniques, and Procedures).
+
+
+---
+
+Q4
+
+Which model is most useful during threat intelligence?
+
+There isn't a single "best" model:
+
+Kill Chain helps understand attack progression.
+
+MITRE ATT&CK maps attacker behavior.
+
+Diamond Model supports intelligence investigations.
+
+Pyramid of Pain helps prioritize defensive detections.
+
+
+They complement each other.
+
+
+---
+
+Relating This to Your Internship
+
+Your architecture review already touches these ideas:
+
+Kill Chain: You asked where attacks could occur (prompt injection, token misuse, shared memory).
+
+MITRE mindset: You focused on attacker techniques rather than only technologies.
+
+Diamond Model: You identified the likely victim (ADP), capability (prompt injection/shared-memory abuse), and potential adversary behavior.
+
+Pyramid of Pain: Instead of suggesting "block this prompt," you discussed architectural controls like guardrails, memory isolation, scoped tokens, and logging controls—these are harder for attackers to bypass.
+
+
+
+---
+
+Block C Memory Map
+
+Cyber Kill Chain
+↓
+Attack stages
+
+MITRE ATT&CK
+↓
+Attack techniques
+
+Diamond Model
+↓
+Who + What + Where + Victim
+
+Pyramid of Pain
+↓
+Best detection priorities
+
+These four frameworks are the core analytical models used throughout Cyber Threat Intelligence. Mastering them will make later topics—threat hunting, SOC investigations, and AI security—much easier to understand.
