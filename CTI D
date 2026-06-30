@@ -1,0 +1,741 @@
+Perfect. This is the last major concept you'll likely need for your meeting.
+
+BLOCK D — Threat Actors & Attribution
+
+Goal: Learn who attackers are, why they attack, and how security teams determine who is behind an attack.
+
+Time: 35–45 minutes
+
+
+---
+
+What is a Threat Actor?
+
+A threat actor is any person or group that intentionally performs malicious cyber activity.
+
+Think of it like this:
+
+Threat Actor
+      ↓
+Launches Attack
+      ↓
+Uses Techniques
+      ↓
+Targets Victim
+
+
+---
+
+Types of Threat Actors
+
+There are 6 main categories.
+
+
+---
+
+1. Nation-State (APT)
+
+Government-backed hackers.
+
+Examples:
+
+China
+
+Russia
+
+North Korea
+
+Iran
+
+
+Goals:
+
+Espionage
+
+Political influence
+
+Intelligence gathering
+
+Critical infrastructure attacks
+
+
+
+---
+
+Example
+
+North Korea stealing cryptocurrency.
+
+Russia targeting government infrastructure.
+
+These are Advanced Persistent Threats (APT).
+
+Examples:
+
+APT28
+
+APT29
+
+Lazarus Group
+
+
+
+---
+
+Characteristics
+
+✔ Highly skilled
+
+✔ Well funded
+
+✔ Long-term attacks
+
+✔ Patient
+
+
+---
+
+2. Cybercriminals
+
+Motivated by money.
+
+Examples
+
+Banking trojans
+
+Credit card theft
+
+Ransomware
+
+Business Email Compromise
+
+
+
+---
+
+Targets
+
+Banks
+
+Companies
+
+Individuals
+
+
+
+---
+
+Example
+
+Stealing KYC documents
+
+↓
+
+Selling identities
+
+↓
+
+Making money
+
+
+---
+
+3. Insider Threat
+
+Someone inside the organization.
+
+Could be
+
+Employee
+
+Contractor
+
+Vendor
+
+Intern
+
+
+Intentional or accidental.
+
+
+---
+
+Example
+
+Employee copies customer database.
+
+OR
+
+Accidentally uploads confidential files.
+
+
+---
+
+4. Hacktivists
+
+Motivated by ideology.
+
+Examples
+
+Political causes
+
+Environmental activism
+
+Social campaigns
+
+
+Goals
+
+Defacement
+
+Data leaks
+
+Public attention
+
+
+Money is not the objective.
+
+
+---
+
+5. Script Kiddies
+
+Beginners.
+
+Use publicly available hacking tools.
+
+Usually
+
+Learning
+
+Showing off
+
+Curiosity
+
+
+Low skill.
+
+
+---
+
+6. Competitors
+
+Rare but possible.
+
+Objectives
+
+Corporate espionage
+
+Trade secrets
+
+Intellectual property
+
+
+
+---
+
+Threat Actor Comparison
+
+Actor	Main Motivation
+
+Nation-State	Espionage, strategic advantage
+Cybercriminal	Financial gain
+Insider	Personal gain, revenge, mistakes
+Hacktivist	Ideology
+Script Kiddie	Curiosity or recognition
+Competitor	Business intelligence
+
+
+
+---
+
+What is Attribution?
+
+Attribution means:
+
+> Who carried out the attack?
+
+
+
+Unfortunately...
+
+This is very difficult.
+
+
+---
+
+Example
+
+You detect
+
+IP Address
+
+↓
+
+Russia
+
+Does that prove Russia attacked?
+
+No.
+
+Attackers use
+
+VPNs
+
+Tor
+
+Proxies
+
+Compromised servers
+
+
+
+---
+
+Security teams gather evidence.
+
+Think of it like detective work.
+
+
+---
+
+What Evidence is Used?
+
+
+---
+
+Infrastructure
+
+Example
+
+IP
+
+Domain
+
+Hosting provider
+
+
+
+---
+
+Malware
+
+Example
+
+Same malware family
+
+Same code
+
+Same encryption
+
+
+---
+
+TTPs
+
+Most valuable.
+
+Example
+
+Always uses
+
+PowerShell
+
+Same persistence
+
+Same phishing style
+
+
+Very difficult to change.
+
+
+---
+
+Language
+
+Example
+
+Comments
+
+Time zones
+
+Keyboard layout
+
+Compilation times
+
+Language inside malware
+
+
+---
+
+Victim Selection
+
+Who is attacked?
+
+Example
+
+Banks only.
+
+Government only.
+
+Healthcare only.
+
+
+---
+
+Attribution Confidence
+
+Security teams never say
+
+> "100% Russia"
+
+
+
+Instead
+
+Low Confidence
+
+Medium Confidence
+
+High Confidence
+
+Because attackers can imitate others.
+
+
+---
+
+Real Example
+
+Suppose an attack hits Barclays.
+
+Evidence:
+
+Same malware as APT29
+
+Same infrastructure
+
+Same phishing style
+
+Same working hours
+
+
+Analyst writes:
+
+> High confidence that activity is consistent with APT29.
+
+
+
+Not
+
+> "APT29 definitely attacked."
+
+
+
+
+---
+
+Intelligence Sources
+
+Threat intelligence comes from many places.
+
+
+---
+
+Internal Sources
+
+CloudTrail
+
+CloudWatch
+
+SIEM
+
+Firewall logs
+
+EDR alerts
+
+Incident reports
+
+
+
+---
+
+External Sources
+
+Vendor advisories
+
+Government CERTs
+
+Threat feeds
+
+Security blogs
+
+Open Source Intelligence (OSINT)
+
+Dark web monitoring
+
+
+
+---
+
+Structured Intelligence
+
+Raw information
+
+↓
+
+Indicators
+
+↓
+
+Analysis
+
+↓
+
+Threat Intelligence
+
+
+---
+
+Example
+
+Raw
+
+IP
+
+185.x.x.x
+
+↓
+
+Indicator
+
+Known C2 server
+
+↓
+
+Threat Intelligence
+
+APT29 infrastructure targeting financial institutions.
+
+
+---
+
+Intelligence Levels
+
+CTI is divided into three levels.
+
+
+---
+
+Strategic Intelligence
+
+Audience:
+
+Executives
+
+Questions answered:
+
+What threats affect the business?
+
+Budget?
+
+Risk?
+
+
+
+---
+
+Operational Intelligence
+
+Audience:
+
+Managers
+
+Questions answered:
+
+Which campaigns are active?
+
+Which groups are targeting us?
+
+
+
+---
+
+Tactical Intelligence
+
+Audience:
+
+SOC Analysts
+
+Contains:
+
+IPs
+
+Domains
+
+Hashes
+
+URLs
+
+Detection rules
+
+
+
+---
+
+Technical Intelligence
+
+Audience:
+
+Security Engineers
+
+Contains:
+
+YARA rules
+
+Sigma rules
+
+IOCs
+
+Malware signatures
+
+Detection logic
+
+
+
+---
+
+Intelligence Pyramid
+
+Strategic
+↑
+
+Operational
+↑
+
+Tactical
+↑
+
+Technical
+
+
+---
+
+Barclays Example
+
+Suppose your AI KYC platform is attacked.
+
+
+---
+
+Strategic
+
+AI systems are becoming a major target.
+
+
+---
+
+Operational
+
+Prompt Injection campaign targeting banks.
+
+
+---
+
+Tactical
+
+Malicious prompts
+
+Domains
+
+URLs
+
+Payloads
+
+
+---
+
+Technical
+
+Detection rules
+
+Guardrails
+
+Regex
+
+WAF rules
+
+Logging
+
+
+---
+
+Interview Questions
+
+Q1
+
+Who is the most dangerous threat actor?
+
+Usually nation-state APT groups, because they are well funded, highly skilled, and persistent.
+
+
+---
+
+Q2
+
+Why is attribution difficult?
+
+Attackers can hide behind VPNs, proxies, compromised infrastructure, or intentionally mimic another group's techniques.
+
+
+---
+
+Q3
+
+Which evidence is most valuable for attribution?
+
+TTPs (Tactics, Techniques, and Procedures), because they are much harder to change than IP addresses or domains.
+
+
+---
+
+Q4
+
+Difference between tactical and strategic intelligence?
+
+Strategic intelligence supports business and executive decisions.
+
+Tactical intelligence supports day-to-day detection and response by security operations teams.
+
+
+
+---
+
+How This Relates to Your Internship
+
+You're already thinking like a CTI analyst:
+
+You reviewed architecture to understand where an attacker could succeed, not just whether a vulnerability exists.
+
+You collected information from architecture diagrams, key design decisions, and policy documents before forming conclusions.
+
+You discussed findings with your manager as questions rather than assumptions, which is exactly how threat intelligence is communicated.
+
+You focused on realistic attack paths such as token misuse, shared memory, prompt injection, and sensitive logging rather than hypothetical issues.
+
+
+That analytical approach aligns well with Cyber Threat Intelligence work.
+
+
+---
+
+CTI First Principles — Complete Cheat Sheet
+
+Block	Topics
+
+A	What is CTI, intelligence types, CIA vs CTI, IOC vs IOA
+B	CTI Lifecycle (Requirements → Collection → Processing → Analysis → Dissemination → Feedback)
+C	Cyber Kill Chain, MITRE ATT&CK, Diamond Model, Pyramid of Pain
+D	Threat Actors, Attribution, Intelligence Sources, Strategic/Operational/Tactical/Technical Intelligence
+
+
+These four blocks cover the core concepts from the "CTI First Principles" learning path and should give you a solid foundation for discussing cyber threat intelligence with your manager or team.
