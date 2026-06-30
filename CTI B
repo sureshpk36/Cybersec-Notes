@@ -1,0 +1,605 @@
+Excellent. This is probably the most important topic in CTI because managers often ask about it.
+
+
+---
+
+BLOCK B — Cyber Threat Intelligence Lifecycle
+
+Goal: Learn how threat intelligence is created and used from start to finish.
+
+Time: 30–40 minutes
+
+
+---
+
+What is the CTI Lifecycle?
+
+Threat intelligence is not just collecting threat reports.
+
+It follows a structured cycle:
+
+Requirements
+      ↓
+Collection
+      ↓
+Processing
+      ↓
+Analysis
+      ↓
+Dissemination
+      ↓
+Feedback
+      ↺
+
+Think of it like software development:
+
+Requirement
+↓
+
+Coding
+
+↓
+
+Testing
+
+↓
+
+Deployment
+
+↓
+
+Feedback
+
+↓
+
+Next version
+
+CTI works the same way.
+
+
+---
+
+Step 1 — Requirements
+
+This answers:
+
+> What do we want to know?
+
+
+
+Security teams don't collect everything.
+
+They define intelligence requirements.
+
+Examples:
+
+Are ransomware groups targeting banks?
+
+Are attackers exploiting Bedrock?
+
+Is prompt injection increasing?
+
+Are our vendors compromised?
+
+Is there any threat to Barclays infrastructure?
+
+
+Without requirements, intelligence teams waste time collecting irrelevant data.
+
+
+---
+
+Barclays Example
+
+Your manager asks:
+
+> "Can prompt injection bypass our Bedrock Guardrails?"
+
+
+
+That becomes an intelligence requirement.
+
+
+---
+
+Step 2 — Collection
+
+Now gather information.
+
+Sources include:
+
+Internal
+
+Firewall logs
+
+CloudTrail
+
+CloudWatch
+
+SIEM
+
+IDS/IPS
+
+EDR
+
+Incident reports
+
+
+
+---
+
+External
+
+Threat feeds
+
+MITRE ATT&CK
+
+Vendor advisories
+
+Government CERTs
+
+OSINT
+
+Security researchers
+
+Dark web monitoring
+
+
+
+---
+
+AI Project Example
+
+Suppose attackers publish a new prompt injection technique.
+
+Security team collects:
+
+Research papers
+
+Security blogs
+
+GitHub PoCs
+
+AWS advisories
+
+Bedrock documentation
+
+
+Nothing is intelligence yet.
+
+It's just raw information.
+
+
+---
+
+Step 3 — Processing
+
+Raw data is messy.
+
+Processing makes it usable.
+
+Examples:
+
+Remove duplicates
+
+Normalize logs
+
+Decode IPs
+
+Parse JSON
+
+Extract indicators
+
+Remove corrupted records
+
+Convert timestamps
+
+
+Think of it as cleaning data.
+
+
+---
+
+Example:
+
+Raw log:
+
+172.16.4.21
+172.16.4.21
+172.16.4.21
+
+After processing:
+
+IP
+172.16.4.21
+
+Attempts
+3
+
+
+---
+
+Step 4 — Analysis
+
+This is where intelligence is created.
+
+Analysts ask:
+
+Who attacked?
+
+Why?
+
+How?
+
+Which vulnerabilities?
+
+Which techniques?
+
+Who is the target?
+
+What should we do?
+
+
+
+---
+
+Example
+
+Raw Data:
+
+Thousands of failed logins
+
+Analysis:
+
+Password spraying attack
+
+Likely APT29
+
+Targets finance sector
+
+Recommend MFA enforcement
+
+Now it becomes intelligence.
+
+
+---
+
+AI Security Example
+
+Collected information:
+
+Prompt Injection
+
+Shared Memory
+
+Policy Poisoning
+
+Token Replay
+
+Analysis:
+
+Our architecture uses shared memory.
+
+There is no documented isolation.
+
+Potential cross-agent influence.
+
+Recommend memory isolation.
+
+This is exactly how you identified V10.
+
+
+---
+
+Step 5 — Dissemination
+
+Now intelligence is shared.
+
+Different audiences receive different reports.
+
+
+---
+
+Executives
+
+Need:
+
+Business impact
+
+Risk
+
+Budget
+
+Strategy
+
+
+---
+
+SOC
+
+Need:
+
+Malicious IPs
+
+Domains
+
+Hashes
+
+Detection rules
+
+
+---
+
+Security Architects
+
+Need:
+
+Mitigations
+
+Design improvements
+
+Architecture recommendations
+
+
+---
+
+Developers
+
+Need:
+
+Fixes
+
+Secure coding
+
+Configuration updates
+
+
+---
+
+Example
+
+Your architecture review goes to Product Owners.
+
+You explain:
+
+> Shared memory may require isolation.
+
+
+
+That's dissemination.
+
+
+---
+
+Step 6 — Feedback
+
+Users of intelligence provide feedback.
+
+Example:
+
+Developer says:
+
+> Actually each case has isolated memory.
+
+
+
+Analyst updates report.
+
+OR
+
+Developer says:
+
+> Good catch—we'll fix it.
+
+
+
+Cycle starts again.
+
+
+---
+
+Full Lifecycle
+
+1. Requirements
+        ↓
+2. Collection
+        ↓
+3. Processing
+        ↓
+4. Analysis
+        ↓
+5. Dissemination
+        ↓
+6. Feedback
+        ↺
+
+
+---
+
+Real Example (Barclays AI Project)
+
+Imagine a new attack appears.
+
+
+---
+
+Requirement
+
+Can attackers poison policy memory?
+
+↓
+
+Collection
+
+AWS blog
+
+GitHub PoC
+
+MITRE
+
+Research paper
+
+↓
+
+Processing
+
+Extract TTPs
+
+Remove duplicates
+
+Identify affected components
+
+↓
+
+Analysis
+
+ADP uses shared memory
+
+Potential cross-agent influence
+
+Need isolation
+
+↓
+
+Dissemination
+
+Security Architect
+
+Product Owner
+
+Manager
+
+Development Team
+
+↓
+
+Feedback
+
+Memory already isolated?
+
+If yes
+
+Close finding
+
+If no
+
+Raise security issue
+
+
+---
+
+Intelligence Pyramid
+
+Feedback
+↑
+
+Dissemination
+
+↑
+
+Analysis
+
+↑
+
+Processing
+
+↑
+
+Collection
+
+↑
+
+Requirements
+
+If the requirements are poor, the entire intelligence process suffers.
+
+
+---
+
+Common Interview Questions
+
+Q1. Which step is the most important?
+
+Analysis.
+
+Collection gathers data, but analysis turns it into actionable intelligence.
+
+
+---
+
+Q2. Why is feedback important?
+
+Because intelligence improves based on operational validation. If assumptions are incorrect or the environment changes, the reports and recommendations need to be updated.
+
+
+---
+
+Q3. Is collecting threat feeds enough?
+
+No.
+
+Threat feeds provide raw information. Intelligence requires processing, analysis, and recommendations tailored to your organization.
+
+
+---
+
+How This Relates to Your Internship
+
+You've naturally followed much of this lifecycle:
+
+CTI Lifecycle	What you did
+
+Requirements	Asked whether the architecture has security weaknesses
+Collection	Read Architecture Vision, Policy Hub, C4 diagrams, Key Design Decisions
+Processing	Drew diagrams and mapped component interactions
+Analysis	Identified potential issues such as token replay, shared memory, logging of sensitive data
+Dissemination	Discussed findings with Eshan, Akhil, and your manager
+Feedback	Reframed findings as questions after receiving guidance, and refined your understanding
+
+
+This is why your manager said your questions were valid—you weren't just reading documents; you were following a structured analysis process.
+
+
+---
+
+Block B Summary
+
+Remember this sequence:
+
+1. Requirements – Decide what intelligence is needed.
+
+
+2. Collection – Gather relevant internal and external data.
+
+
+3. Processing – Clean, normalize, and organize the data.
+
+
+4. Analysis – Determine what it means and what actions should be taken.
+
+
+5. Dissemination – Share intelligence with the appropriate audience.
+
+
+6. Feedback – Refine intelligence based on outcomes and new information.
+
+
+
+
+---
+
+Memory Trick
+
+R C P A D F
+
+Requirements → Collection → Processing → Analysis → Dissemination → Feedback
+
+Or remember it as:
+
+> "Request → Collect → Prepare → Analyze → Deliver → Feedback."
+
+
+
+This order is the standard CTI lifecycle you'll see in most threat intelligence frameworks.
+
+Once you're comfortable with this, we'll move to Block C: Models and Methodologies, where we'll cover the Cyber Kill Chain, Diamond Model, MITRE ATT&CK, and other frameworks used to analyze attacker behavior.
