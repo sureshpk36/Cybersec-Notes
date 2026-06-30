@@ -1,0 +1,445 @@
+Perfect. Since you're working in a CISO team and reviewing AI architecture, I'll teach Block A with enterprise examples rather than generic definitions.
+
+
+---
+
+BLOCK A — What is Cyber Threat Intelligence (CTI)?
+
+Time: 20–30 minutes
+
+Goal: Understand what CTI is, why organizations need it, and how it helps security teams make decisions.
+
+
+---
+
+1. What is Intelligence?
+
+Let's start with a simple analogy.
+
+Imagine you hear:
+
+> "Someone tried to break into a bank."
+
+
+
+This is just information.
+
+Now you investigate and learn:
+
+The attacker used phishing emails.
+
+They targeted finance employees.
+
+They came from Eastern Europe.
+
+They stole credentials.
+
+They attempted VPN access.
+
+Other banks were targeted similarly.
+
+
+Now you can predict:
+
+Who is attacking.
+
+How they attack.
+
+Who they target next.
+
+How to stop them.
+
+
+This becomes intelligence.
+
+Definition
+
+> Cyber Threat Intelligence (CTI) is analyzed information about cyber threats that helps organizations make better security decisions.
+
+
+
+Notice the key word:
+
+> Analyzed
+
+
+
+Raw logs are not intelligence.
+
+
+---
+
+2. Why do we need CTI?
+
+Without CTI, security teams are reactive.
+
+Example:
+
+Alert
+↓
+
+Investigate
+
+↓
+
+Fix
+
+↓
+
+Wait for next attack
+
+With CTI:
+
+Threat reports
+
+↓
+
+Know attacker
+
+↓
+
+Predict attack
+
+↓
+
+Deploy controls
+
+↓
+
+Prevent attack
+
+Instead of asking:
+
+> "We were attacked."
+
+
+
+You ask:
+
+> "Who might attack us next?"
+
+
+
+
+---
+
+3. CTI in your Barclays project
+
+Think about your AI KYC system.
+
+Suppose security researchers report:
+
+> Attackers are using prompt injection against document-processing AI systems.
+
+
+
+Without CTI:
+
+Your team learns only after an attack.
+
+With CTI:
+
+Security team reads the intelligence.
+
+They immediately ask:
+
+Are Bedrock Guardrails enabled?
+
+Are prompts validated?
+
+Can policies be poisoned?
+
+Is shared memory isolated?
+
+Are logs monitored?
+
+
+This is exactly the type of thinking you've been doing when reviewing the architecture.
+
+CTI helps teams ask these questions before an incident occurs.
+
+
+---
+
+4. Intelligence vs Data
+
+Consider this table:
+
+Raw Data	Intelligence
+
+IP: 10.1.1.5	This IP belongs to a ransomware campaign targeting banks.
+Login failed	500 failed logins indicate a password spraying attack.
+File hash	Hash matches known malware.
+Domain	Domain is part of a phishing campaign.
+
+
+Data answers: What happened?
+
+Intelligence answers: Why it happened, who is behind it, and what to do next.
+
+
+---
+
+5. Four Types of Threat Intelligence
+
+These are asked frequently in interviews.
+
+A. Strategic Intelligence
+
+Audience:
+
+CISO
+
+Executives
+
+
+Focus:
+
+Business risk
+
+Long-term trends
+
+
+Example:
+
+> "Financial institutions are increasingly targeted by AI-enabled phishing campaigns."
+
+
+
+Question answered:
+
+> Should Barclays invest more in phishing defenses?
+
+
+
+
+---
+
+B. Operational Intelligence
+
+Audience:
+
+Security Managers
+
+Incident Response Teams
+
+
+Focus:
+
+Ongoing attack campaigns
+
+
+Example:
+
+> "A ransomware group is targeting UK banks this week."
+
+
+
+Question answered:
+
+> Are we likely to be targeted?
+
+
+
+
+---
+
+C. Tactical Intelligence
+
+Audience:
+
+Security Engineers
+
+
+Focus:
+
+TTPs (Tactics, Techniques, and Procedures)
+
+
+Example:
+
+Attackers are:
+
+Sending phishing emails.
+
+Using stolen credentials.
+
+Bypassing MFA with session token theft.
+
+
+Question answered:
+
+> How do they attack?
+
+
+
+
+---
+
+D. Technical Intelligence
+
+Audience:
+
+SOC Analysts
+
+
+Focus:
+
+Indicators of Compromise (IOCs)
+
+
+Examples:
+
+Malicious IP addresses
+
+File hashes
+
+Domains
+
+URLs
+
+
+Question answered:
+
+> What should we block or alert on?
+
+
+
+
+---
+
+Easy way to remember
+
+Intelligence Type	Audience	Focus
+
+Strategic	Executives	Business risk
+Operational	Managers	Active campaigns
+Tactical	Security Engineers	Attacker techniques (TTPs)
+Technical	SOC Analysts	IOCs (IPs, hashes, domains)
+
+
+
+---
+
+6. What are IOCs?
+
+IOC = Indicator of Compromise
+
+These are pieces of evidence that suggest malicious activity.
+
+Examples:
+
+Malicious IP
+
+Malware hash
+
+Phishing domain
+
+Suspicious email
+
+Registry key
+
+Process name
+
+
+Think of them as fingerprints left by an attacker.
+
+
+---
+
+7. CTI Workflow (High Level)
+
+Threat happens
+        ↓
+Collect data
+        ↓
+Analyze data
+        ↓
+Create intelligence
+        ↓
+Share with defenders
+        ↓
+Improve security
+
+We'll cover this lifecycle in detail in Block B.
+
+
+---
+
+8. Connect CTI to your internship
+
+You're already applying CTI-style thinking.
+
+When you looked at the architecture, you didn't just ask:
+
+> "Does it use TIAA tokens?"
+
+
+
+You asked:
+
+Could tokens be replayed?
+
+Is shared memory isolated?
+
+Can logs leak PII?
+
+Can prompt injection occur?
+
+Is policy poisoning possible?
+
+
+That's moving beyond identifying technologies to thinking about how they could be attacked, which is exactly the mindset CTI aims to develop.
+
+
+---
+
+Block A Summary (Remember These)
+
+1. CTI = analyzed knowledge about cyber threats.
+
+
+2. Data is not intelligence until it is analyzed.
+
+
+3. Purpose of CTI is to help organizations make informed security decisions.
+
+
+4. Four intelligence types:
+
+Strategic → Business
+
+Operational → Campaigns
+
+Tactical → TTPs
+
+Technical → IOCs
+
+
+
+5. IOCs are evidence of compromise (IPs, hashes, domains, etc.).
+
+
+
+
+---
+
+Quick Check (answer without looking)
+
+1. What is Cyber Threat Intelligence?
+
+
+2. Why is CTI more valuable than raw logs?
+
+
+3. What is the difference between Strategic and Technical intelligence?
+
+
+4. What is an IOC? Give three examples.
+
+
+5. In your KYC AI project, how could CTI help improve security?
+
+
+
+Answer these, and then we'll move to Block B: CTI Lifecycle.
