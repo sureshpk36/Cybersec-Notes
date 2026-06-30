@@ -1,0 +1,442 @@
+Perfect. Block E is the final block. It ties everything together by teaching you how threat intelligence is represented, shared, and visualized so analysts can understand attacks quickly.
+
+
+---
+
+BLOCK E – Decomposition & Visualization of Threat Intelligence
+
+Time: 30–40 minutes
+
+Goal: Learn how security analysts break down attacks into smaller pieces and visualize them for investigation and decision-making.
+
+
+---
+
+1. What is Decomposition?
+
+Decomposition means:
+
+> Breaking a complex cyber attack into smaller, understandable parts.
+
+
+
+Instead of saying:
+
+> "The bank was hacked."
+
+
+
+We ask:
+
+How did the attacker enter?
+
+What vulnerability was exploited?
+
+What tools were used?
+
+Which systems were affected?
+
+What data was targeted?
+
+
+
+---
+
+Example
+
+Attack:
+
+Customer receives phishing email
+        ↓
+Clicks malicious link
+        ↓
+Credentials stolen
+        ↓
+Attacker logs into VPN
+        ↓
+Accesses internal application
+        ↓
+Steals customer data
+
+Instead of one event, we now have six attack stages.
+
+
+---
+
+2. Why Decompose an Attack?
+
+Benefits:
+
+Easier investigation
+
+Easier detection
+
+Easier reporting
+
+Easier mitigation
+
+Helps identify the root cause
+
+
+Instead of fixing only the final breach, you can stop the attack earlier.
+
+
+---
+
+3. Attack Visualization
+
+Security teams often create diagrams to understand attacks.
+
+Example:
+
+Attacker
+    │
+    ▼
+Phishing Email
+    │
+    ▼
+Employee Laptop
+    │
+    ▼
+VPN
+    │
+    ▼
+Internal Server
+    │
+    ▼
+Database
+
+This helps identify where security controls should be added.
+
+
+---
+
+4. Attack Graph
+
+An attack graph shows multiple possible paths.
+
+Example:
+
+Internet
+   │
+   ▼
+Web App
+  / \
+ /   \
+API  Admin Portal
+ |        |
+ ▼        ▼
+Database  Active Directory
+
+An attacker may have several routes to reach the target.
+
+
+---
+
+5. Mapping to MITRE ATT&CK
+
+Example:
+
+Phishing
+        ↓
+Credential Theft
+        ↓
+Privilege Escalation
+        ↓
+Lateral Movement
+        ↓
+Data Exfiltration
+
+Each step can be mapped to a MITRE ATT&CK tactic or technique.
+
+This helps:
+
+SOC teams
+
+Incident responders
+
+Threat hunters
+
+
+understand attacker behavior consistently.
+
+
+---
+
+6. Visualizing Your Barclays AI Project
+
+Suppose an attacker uploads a malicious document.
+
+Customer Upload
+        ↓
+OCR
+        ↓
+LLM
+        ↓
+Shared Memory
+        ↓
+Policy Agent
+        ↓
+Decision Engine
+
+Now ask:
+
+Where could security controls be placed?
+
+Example:
+
+Customer Upload
+        │
+Input Validation
+        ▼
+OCR
+        │
+Prompt Injection Detection
+        ▼
+LLM
+        │
+Guardrails
+        ▼
+Shared Memory
+        │
+Memory Isolation
+        ▼
+Decision Engine
+
+This is exactly how security architects review designs.
+
+
+---
+
+7. Security Control Mapping
+
+Every attack step should have a corresponding defense.
+
+Attack Stage	Security Control
+
+Phishing	Email Security
+Credential Theft	MFA
+SQL Injection	Parameterized Queries
+Prompt Injection	Input Validation + Guardrails
+Data Exfiltration	DLP
+Privilege Escalation	Least Privilege
+
+
+The goal isn't just to understand attacks—it is to identify where defenses should be strengthened.
+
+
+---
+
+8. Intelligence Sharing
+
+Threat intelligence is shared with different audiences.
+
+Executives
+
+Need:
+
+Business impact
+
+Risk
+
+Trends
+
+
+
+---
+
+Developers
+
+Need:
+
+Vulnerabilities
+
+Fixes
+
+Secure coding guidance
+
+
+
+---
+
+SOC Analysts
+
+Need:
+
+Indicators of Compromise
+
+Detection rules
+
+MITRE mappings
+
+
+
+---
+
+Security Architects
+
+Need:
+
+Threat models
+
+Design improvements
+
+Security recommendations
+
+
+
+---
+
+9. Applying This to Your Internship
+
+Think about how you reviewed the ADP architecture.
+
+You effectively decomposed the workflow:
+
+Document Upload
+        ↓
+OCR
+        ↓
+LLM
+        ↓
+Policy Validation
+        ↓
+Decision
+        ↓
+Storage
+
+Then you asked questions at each stage:
+
+Could prompt injection occur?
+
+Is shared memory isolated?
+
+Are tokens replayable?
+
+Are logs redacted?
+
+Is PII tokenized?
+
+
+That is security decomposition.
+
+
+---
+
+10. Think Like a Security Architect
+
+Instead of asking:
+
+> "Is this secure?"
+
+
+
+Ask:
+
+1. What assets are we protecting?
+
+
+2. Where does data flow?
+
+
+3. Who can access it?
+
+
+4. What if this control fails?
+
+
+5. What happens if an attacker reaches this component?
+
+
+6. Which security control stops the attack?
+
+
+
+These are the kinds of questions your manager has been encouraging you to ask.
+
+
+---
+
+Manager Questions
+
+Q1. Why decompose an attack?
+
+Answer: To understand each stage of the attack, identify root causes, place security controls effectively, and improve detection and response.
+
+
+---
+
+Q2. Why visualize attack paths?
+
+Answer: Visualization makes it easier to understand how an attacker moves through a system, identify high-risk components, and communicate findings to technical and non-technical stakeholders.
+
+
+---
+
+Q3. How does decomposition help security teams?
+
+Answer: It allows teams to map threats to specific assets, controls, and mitigations rather than treating an incident as a single event.
+
+
+---
+
+Questions to Think About
+
+Question 1
+
+If an attacker bypasses one security control, does the attack automatically succeed?
+
+Answer: Not necessarily. A well-designed system uses defense in depth, where multiple independent controls reduce the likelihood of a successful attack.
+
+
+---
+
+Question 2
+
+Why is visualizing data flow important in security architecture?
+
+Answer: Because understanding where sensitive data is created, processed, stored, and transmitted helps identify trust boundaries, attack surfaces, and appropriate security controls.
+
+
+---
+
+Question 3
+
+When reviewing an architecture diagram, what should you focus on first?
+
+Answer: Identify:
+
+Sensitive assets
+
+Data flows
+
+Trust boundaries
+
+Authentication points
+
+Security controls
+
+External integrations
+
+
+Then evaluate what could happen if each control fails.
+
+
+---
+
+Notes for Your Notebook
+
+Decomposition = Break a complex attack into smaller steps.
+
+Visualization = Represent attack paths and data flows using diagrams.
+
+Map attacks to MITRE ATT&CK and place security controls at each stage.
+
+Every attack path should have corresponding defensive controls.
+
+During architecture reviews, think in terms of assets → data flow → trust boundaries → threats → controls → mitigations.
+
+Security architects don't just identify vulnerabilities—they understand how systems work, where attackers can succeed, and how to reduce risk through better design.
+
+
+This concludes the CTI learning path and gives you a solid framework for discussing threat intelligence and architecture reviews with your manager.
