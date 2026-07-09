@@ -1,0 +1,611 @@
+Perfect. This is one of the most important defensive security frameworks. I'll teach it the same way I would prepare someone for a discussion with a security architect.
+
+
+---
+
+BLOCK A — MITRE ATT&CK Fundamentals
+
+Goal
+
+Understand what MITRE ATT&CK is and why every SOC, Blue Team and Threat Intelligence team uses it.
+
+
+---
+
+1. What is MITRE ATT&CK?
+
+MITRE ATT&CK stands for
+
+> Adversarial Tactics, Techniques and Common Knowledge
+
+
+
+It is a knowledge base of attacker behavior collected from real-world cyber attacks.
+
+It is NOT
+
+❌ Vulnerability Database
+
+❌ Scanner
+
+❌ Antivirus
+
+❌ SIEM
+
+
+It is simply
+
+> "How attackers behave after attacking a system."
+
+
+
+
+---
+
+2. Why was MITRE ATT&CK created?
+
+Earlier defenders only knew
+
+> "This malware attacked us."
+
+
+
+Now defenders ask
+
+How did attacker enter?
+
+How did attacker move?
+
+How did attacker hide?
+
+What data did attacker steal?
+
+How can we detect this next time?
+
+
+MITRE ATT&CK answers these questions.
+
+
+---
+
+3. Core Structure
+
+Think of ATT&CK like a movie.
+
+Every hacker follows a story.
+
+Recon
+↓
+
+Prepare
+
+↓
+
+Gain Access
+
+↓
+
+Run Malware
+
+↓
+
+Stay Inside
+
+↓
+
+Become Admin
+
+↓
+
+Hide
+
+↓
+
+Steal Credentials
+
+↓
+
+Move to Other Systems
+
+↓
+
+Collect Data
+
+↓
+
+Exfiltrate
+
+↓
+
+Destroy/Impact
+
+MITRE documents every step.
+
+
+---
+
+4. Three Important Terms
+
+Tactic
+
+High-level attacker objective.
+
+Example
+
+> Gain Initial Access
+
+
+
+
+---
+
+Technique
+
+How attacker achieves objective.
+
+Example
+
+Phishing Email
+
+
+---
+
+Procedure
+
+Real implementation.
+
+Example
+
+APT29 used spear phishing attachment.
+
+
+---
+
+Remember
+
+Goal
+↓
+
+Tactic
+
+↓
+
+Technique
+
+↓
+
+Procedure
+
+
+---
+
+5. Why Barclays cares
+
+Suppose your KYC AI system exists.
+
+Manager asks
+
+"Can attacker steal customer documents?"
+
+Instead of guessing,
+
+Security team maps
+
+Recon
+
+↓
+
+Phishing
+
+↓
+
+Credential Theft
+
+↓
+
+Privilege Escalation
+
+↓
+
+Access DynamoDB
+
+↓
+
+Exfiltrate Documents
+
+Now you know
+
+where to detect
+
+where to stop
+
+where to monitor
+
+
+
+---
+
+Interview Line
+
+> "MITRE ATT&CK doesn't describe vulnerabilities. It documents attacker behaviour using tactics and techniques so defenders can build detections and improve security controls."
+
+
+
+
+---
+
+BLOCK B — Tactics 1–5 (Attack Begins)
+
+These are the first stages of an attack.
+
+1. Reconnaissance
+
+Attacker collects information.
+
+Examples
+
+LinkedIn
+
+Employee names
+
+Email addresses
+
+GitHub
+
+Public websites
+
+
+
+---
+
+2. Resource Development
+
+Attacker prepares tools.
+
+Examples
+
+Register domain
+
+Buy VPS
+
+Create phishing website
+
+Develop malware
+
+
+
+---
+
+3. Initial Access
+
+Entry point.
+
+Examples
+
+Phishing
+
+Public-facing app exploit
+
+Stolen VPN credentials
+
+Supply chain compromise
+
+
+
+---
+
+4. Execution
+
+Run malicious code.
+
+Examples
+
+PowerShell
+
+Bash
+
+Python
+
+Office Macros
+
+
+
+---
+
+5. Persistence
+
+Remain after reboot.
+
+Examples
+
+Scheduled Tasks
+
+Registry Run Keys
+
+Startup Folder
+
+New Service
+
+
+
+---
+
+Memory Flow
+
+Find Victim
+
+↓
+
+Prepare Attack
+
+↓
+
+Enter System
+
+↓
+
+Run Malware
+
+↓
+
+Stay Inside
+
+
+---
+
+BLOCK C — Tactics 6–10 (Expand Control)
+
+Now attacker already has access.
+
+
+---
+
+Privilege Escalation
+
+Become Administrator.
+
+Examples
+
+Kernel exploit
+
+Sudo abuse
+
+Token impersonation
+
+
+
+---
+
+Defense Evasion
+
+Avoid detection.
+
+Examples
+
+Disable Antivirus
+
+Delete Logs
+
+Obfuscate Scripts
+
+
+
+---
+
+Credential Access
+
+Steal passwords.
+
+Examples
+
+Mimikatz
+
+Keylogging
+
+Browser password dump
+
+
+
+---
+
+Discovery
+
+Learn environment.
+
+Examples
+
+Who am I?
+
+What servers exist?
+
+What software exists?
+
+
+Commands
+
+whoami
+
+ipconfig
+
+net user
+
+hostname
+
+
+---
+
+Lateral Movement
+
+Move to other systems.
+
+Examples
+
+RDP
+
+SSH
+
+SMB
+
+PsExec
+
+
+
+---
+
+Memory Flow
+
+Become Admin
+
+↓
+
+Hide
+
+↓
+
+Steal Passwords
+
+↓
+
+Explore Network
+
+↓
+
+Move Sideways
+
+
+---
+
+BLOCK D — Final Stages (Achieve Objective)
+
+Now attacker reaches the goal.
+
+
+---
+
+Collection
+
+Gather data.
+
+Examples
+
+Documents
+
+Database dumps
+
+Emails
+
+Screenshots
+
+
+
+---
+
+Command & Control (C2)
+
+Talk to attacker's server.
+
+Examples
+
+HTTPS
+
+DNS tunneling
+
+Reverse Shell
+
+
+
+---
+
+Exfiltration
+
+Steal data.
+
+Examples
+
+Cloud upload
+
+FTP
+
+HTTPS
+
+Email
+
+
+
+---
+
+Impact
+
+Cause damage.
+
+Examples
+
+Ransomware
+
+Delete files
+
+Encrypt database
+
+Stop services
+
+
+
+---
+
+Memory Flow
+
+Collect Data
+
+↓
+
+Talk to Hacker Server
+
+↓
+
+Steal Data
+
+↓
+
+Destroy / Encrypt
+
+
+---
+
+Complete MITRE ATT&CK Flow (Easy to Remember)
+
+Reconnaissance
+        ↓
+Resource Development
+        ↓
+Initial Access
+        ↓
+Execution
+        ↓
+Persistence
+        ↓
+Privilege Escalation
+        ↓
+Defense Evasion
+        ↓
+Credential Access
+        ↓
+Discovery
+        ↓
+Lateral Movement
+        ↓
+Collection
+        ↓
+Command & Control
+        ↓
+Exfiltration
+        ↓
+Impact
+
+
+---
+
+If your manager asks, "What did you learn from the MITRE ATT&CK module?"
+
+A concise answer could be:
+
+> "The MITRE ATT&CK framework helped me understand cyber attacks as a sequence of attacker behaviours rather than isolated events. I learned how attackers move from reconnaissance and initial access through privilege escalation, lateral movement, data collection, exfiltration, and impact. I also understood how defenders use this framework to map detections, identify security gaps, and improve monitoring. While reviewing our AI architecture, it made me think about where controls and detections should exist at each stage of a potential attack."
