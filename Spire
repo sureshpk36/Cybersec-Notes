@@ -1,0 +1,15 @@
+The proxy has:
+SPIFFE ID:
+spiffe://bank.com/prod/digital-agent-proxy
+The Digital Agent has a policy like:
+Only these services may call me:
+✔ spiffe://bank.com/prod/digital-agent-proxy
+✔ spiffe://bank.com/prod/orchestrator
+
+❌ spiffe://bank.com/prod/policy-agent
+❌ spiffe://bank.com/prod/risk-agent
+During the mTLS handshake:
+The proxy presents its SPIFFE certificate.
+The Digital Agent extracts the SPIFFE ID.
+It checks whether that SPIFFE ID is allowed.
+If not, the connection is rejected before processing the request.
