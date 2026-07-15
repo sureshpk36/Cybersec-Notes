@@ -1,0 +1,482 @@
+BLOCK B — Authorization & Request Protection
+
+Objective: Learn how authenticated users abuse permissions and how modern web applications prevent it.
+
+
+---
+
+1. Authentication vs Authorization
+
+This is one of the most common interview questions.
+
+Authentication	Authorization
+
+Who are you?	What can you do?
+Identity verification	Permission verification
+Login	Access control
+Username + Password, MFA	Roles, Policies, Permissions
+
+
+Example
+
+You log into Barclays.
+
+Authentication:
+
+Username
+
+Password
+
+MFA
+
+
+System verifies:
+
+> "Yes, this is Suresh."
+
+
+
+Now Authorization starts.
+
+System checks:
+
+Can Suresh access Payroll?
+
+Can Suresh access HR Portal?
+
+Can Suresh access Admin APIs?
+
+
+
+---
+
+Real Barclays Example
+
+Employee logs in.
+
+Authentication: ✔ Identity verified.
+
+Authorization decides:
+
+Developer:
+
+GitHub ✔
+
+Jenkins ✔
+
+Production Database ❌
+
+
+Security Consultant:
+
+SIEM ✔
+
+Incident Response ✔
+
+Payroll ❌
+
+
+
+---
+
+Manager's WHY
+
+Why separate Authentication and Authorization?
+
+Because verifying identity doesn't mean giving all permissions.
+
+Otherwise every logged-in employee becomes an administrator.
+
+
+---
+
+2. CSRF (Cross-Site Request Forgery)
+
+One of the most important web attacks.
+
+
+---
+
+Imagine
+
+You are logged into Barclays.
+
+Browser stores:
+
+Session Cookie
+
+SESSION=abc123
+
+Now you visit a malicious website.
+
+Hidden inside:
+
+<form action="https://barclays.com/transfer">
+
+<input name="amount" value="100000">
+
+<input name="to" value="attacker">
+
+</form>
+
+<script>
+document.forms[0].submit();
+</script>
+
+Browser automatically sends:
+
+Cookie:
+SESSION=abc123
+
+Server thinks:
+
+> Legitimate Barclays user.
+
+
+
+Money transferred.
+
+You never clicked anything.
+
+
+---
+
+Attack Flow
+
+User logs into bank
+
+↓
+
+Browser stores session cookie
+
+↓
+
+User opens evil website
+
+↓
+
+Hidden request created
+
+↓
+
+Browser automatically sends cookie
+
+↓
+
+Bank trusts cookie
+
+↓
+
+Attack succeeds
+
+
+---
+
+Why is CSRF possible?
+
+Because browsers automatically attach cookies.
+
+The attacker doesn't need to know your password.
+
+They only trick your browser.
+
+
+---
+
+Real Example
+
+Logged into:
+
+gmail.com
+
+Visit:
+
+evil.com
+
+evil.com sends
+
+POST
+
+/changePassword
+
+Browser includes Gmail cookie.
+
+Google thinks:
+
+Real user requested it.
+
+
+---
+
+3. Anti-CSRF Tokens
+
+Industry standard defense.
+
+
+---
+
+Idea
+
+Every sensitive form gets a secret random value.
+
+Example
+
+Token
+
+92h7sd72d8a
+
+Server stores it.
+
+Form contains
+
+<input hidden>
+
+csrf=92h7sd72d8a
+
+When request arrives:
+
+Server checks
+
+Cookie
+
++
+
+CSRF Token
+
+Both must match.
+
+
+---
+
+Why attacker cannot send token?
+
+Because:
+
+Same-Origin Policy prevents attacker from reading the legitimate webpage.
+
+The attacker can make the browser send the cookie, but cannot read the secret token embedded in the genuine page.
+
+
+Without token
+
+↓
+
+Rejected
+
+
+---
+
+Flow
+
+User opens bank
+
+↓
+
+Server generates token
+
+↓
+
+Browser receives token
+
+↓
+
+User submits form
+
+↓
+
+Cookie + Token
+
+↓
+
+Server validates
+
+↓
+
+Success
+
+Attacker:
+
+Cookie
+
+×
+
+No Token
+
+↓
+
+Rejected
+
+
+---
+
+Manager's WHY
+
+Why are Anti-CSRF Tokens preferred?
+
+Because cookies are automatically sent.
+
+Tokens are not automatically sent.
+
+Attacker cannot guess them.
+
+They prove the request originated from the legitimate application.
+
+
+---
+
+4. SameSite Cookies
+
+Modern browsers provide another defense.
+
+Cookie example
+
+Set-Cookie
+
+SESSION=abc
+
+SameSite=Strict
+
+
+---
+
+SameSite=Strict
+
+Cookie sent only from same website.
+
+Example
+
+barclays.com
+
+↓
+
+barclays.com
+
+✔ Cookie sent
+
+evil.com
+
+↓
+
+barclays.com
+
+❌ Cookie blocked
+
+
+---
+
+SameSite=Lax
+
+Allows cookies for normal top-level navigation (such as clicking a link), but blocks them for most cross-site background requests like hidden forms or iframes.
+
+Much safer than having no SameSite protection.
+
+
+---
+
+SameSite=None
+
+Cookie always sent.
+
+Needs Secure.
+
+Highest CSRF risk.
+
+
+---
+
+Manager's WHY
+
+Why does SameSite=Lax reduce risk?
+
+Because most CSRF attacks rely on the browser automatically sending cookies with cross-site POSTs or embedded requests. SameSite=Lax blocks cookies in most of those cases, so many CSRF attacks fail.
+
+It doesn't eliminate all CSRF scenarios, so sensitive actions should still use anti-CSRF tokens.
+
+
+---
+
+5. Origin & Referer Validation
+
+Server can inspect request headers.
+
+Example
+
+Origin
+
+https://barclays.com
+
+or
+
+Referer
+
+https://barclays.com/profile
+
+If request comes from
+
+evil.com
+
+↓
+
+Reject.
+
+
+---
+
+Why use this?
+
+Additional security layer.
+
+Not perfect because some clients or privacy settings may omit these headers.
+
+
+---
+
+Manager's WHY
+
+Why doesn't HTTPS stop CSRF?
+
+HTTPS encrypts traffic between the browser and the server.
+
+It does not stop a user's browser from sending a legitimate authenticated request to the server. If the browser is tricked into making the request, HTTPS protects that malicious request in transit too.
+
+CSRF is an authorization/request-origin problem, not an encryption problem.
+
+
+---
+
+Quick Interview Revision
+
+Authentication
+
+Who are you?
+
+Authorization
+
+What are you allowed to do?
+
+CSRF
+
+Forces a logged-in user's browser to send unwanted requests.
+
+Why CSRF works
+
+Browsers automatically attach session cookies.
+
+Anti-CSRF Token
+
+A random secret included in the request that attackers cannot obtain, allowing the server to verify the request came from the legitimate application.
+
+SameSite Cookie
+
+Restricts when browsers send cookies on cross-site requests, reducing CSRF risk.
+
+Origin/Referer Validation
+
+Checks whether the request originated from a trusted website.
+
+
+---
+
+30-Second Manager Answer
+
+> "Authentication verifies a user's identity, while authorization determines what that user is allowed to access. CSRF exploits the browser's automatic inclusion of session cookies to perform actions on behalf of a logged-in user. HTTPS encrypts the request but doesn't prevent CSRF because the browser still sends authenticated requests. We mitigate CSRF using anti-CSRF tokens, SameSite cookies, and Origin/Referer validation. Anti-CSRF tokens are preferred because only the legitimate application can provide the correct token, proving the request originated from a trusted page."
