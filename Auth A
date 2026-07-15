@@ -1,0 +1,514 @@
+BLOCK A — Authentication Attacks (Identity)
+
+Goal: Understand how attackers compromise user identities and how modern systems defend against it.
+
+Topics:
+
+1. Web Server Brute Force Authentication – Compromising an Account
+
+
+2. Multi-Factor Authentication (MFA) Weaknesses
+
+
+3. Weak JWT Secrets
+
+
+
+
+---
+
+Topic 1: Web Server Brute Force Authentication
+
+What is it?
+
+A brute-force attack is when an attacker repeatedly tries different passwords until the correct one is found.
+
+Example:
+
+Username: suresh
+
+Password attempts:
+123456
+password
+welcome
+admin123
+Summer@2026
+Barclays@123
+...
+
+Eventually, one password matches.
+
+
+---
+
+Types of Password Attacks
+
+1. Brute Force
+
+Every possible password combination is tried.
+
+Example:
+
+aaaa
+aaab
+aaac
+...
+
+Very slow but guaranteed if given enough time.
+
+
+---
+
+2. Dictionary Attack
+
+Uses a list of common passwords.
+
+password
+welcome
+qwerty
+admin
+letmein
+
+Much faster than brute force.
+
+
+---
+
+3. Credential Stuffing ⭐
+
+Uses usernames/passwords leaked from other websites.
+
+Example:
+
+Netflix:
+suresh@gmail.com
+Password123
+
+Attacker tries same credentials on Barclays.
+
+Works because many people reuse passwords.
+
+
+---
+
+4. Password Spraying ⭐
+
+Instead of attacking one account with many passwords:
+
+Suresh -> Summer2026
+Rahul -> Summer2026
+Divya -> Summer2026
+Akhil -> Summer2026
+
+Only one password is tried against many users, avoiding account lockouts.
+
+
+---
+
+How do companies stop these attacks?
+
+Account Lockout
+
+After 5 failed attempts:
+
+Account Locked
+
+
+---
+
+Rate Limiting
+
+Allow only a limited number of login attempts per minute.
+
+
+---
+
+CAPTCHA
+
+Require the user to prove they are human.
+
+
+---
+
+MFA
+
+Even if the password is stolen, a second factor is required.
+
+
+---
+
+Password Policies
+
+Require:
+
+Long passwords
+
+Special characters
+
+No common passwords
+
+
+
+---
+
+Why is brute force dangerous?
+
+If an attacker logs in successfully:
+
+They appear as a legitimate user.
+
+No software vulnerability is needed.
+
+They can access emails, documents, or financial data.
+
+
+
+---
+
+Topic 2: Multi-Factor Authentication (MFA) Weaknesses
+
+What is MFA?
+
+Authentication uses multiple factors.
+
+Factor 1 — Something you know
+
+Password
+PIN
+
+Factor 2 — Something you have
+
+Phone
+Security Key
+Authenticator App
+
+Factor 3 — Something you are
+
+Fingerprint
+Face ID
+Iris Scan
+
+
+---
+
+Why is MFA better?
+
+Password only:
+
+Password stolen
+↓
+
+Account compromised
+
+With MFA:
+
+Password stolen
+↓
+
+Attacker still needs
+↓
+
+OTP / Authenticator / Security Key
+
+
+---
+
+MFA Weaknesses
+
+SIM Swapping
+
+The attacker convinces the mobile carrier to transfer your phone number to a new SIM.
+
+Result:
+
+OTP now goes to attacker.
+
+
+---
+
+MFA Fatigue
+
+The attacker repeatedly sends authentication prompts.
+
+Approve?
+Approve?
+Approve?
+Approve?
+
+The user accidentally approves.
+
+
+---
+
+Phishing Proxy
+
+A fake login page captures:
+
+Username
+
+Password
+
+OTP
+
+
+The attacker immediately logs in using the captured values.
+
+
+---
+
+Session Hijacking
+
+The attacker steals an authenticated session cookie or token after MFA has already been completed.
+
+
+---
+
+Better MFA Methods
+
+Best → Worst
+
+Hardware Security Keys (FIDO2/WebAuthn)
+↓
+
+Authenticator Apps
+
+↓
+
+Push Notifications
+
+↓
+
+SMS OTP
+
+
+---
+
+Topic 3: Weak JWT Secrets
+
+What is JWT?
+
+JWT (JSON Web Token) is a signed token used for authentication.
+
+Instead of storing sessions on the server:
+
+Server
+
+↓
+
+Creates JWT
+
+↓
+
+Client stores JWT
+
+↓
+
+Client sends JWT with every request.
+
+
+---
+
+JWT Structure
+
+Header
+
+.
+
+Payload
+
+.
+
+Signature
+
+Example:
+
+xxxxx.yyyyy.zzzzz
+
+
+---
+
+Header
+
+Contains:
+
+Algorithm
+
+Type
+
+Example:
+
+{
+ "alg":"HS256",
+ "typ":"JWT"
+}
+
+
+---
+
+Payload
+
+Contains user information.
+
+Example:
+
+{
+ "user":"Suresh",
+ "role":"Admin"
+}
+
+
+---
+
+Signature
+
+Prevents attackers from modifying the token.
+
+Created using:
+
+Header
++
+
+Payload
++
+
+Secret Key
+
+
+---
+
+What is a Weak JWT Secret?
+
+Bad example:
+
+secret
+
+password
+
+admin123
+
+jwtkey
+
+Attackers can guess these values.
+
+If guessed:
+
+Modify Payload
+
+↓
+
+role = Admin
+
+↓
+
+Generate new signature
+
+↓
+
+Server accepts token
+
+
+---
+
+Strong JWT Secret
+
+4c8fe7d0b21e6fa81df8bd983e...
+
+Long, random, high-entropy secrets are much harder to guess.
+
+
+---
+
+Why JWT is Preferred
+
+Instead of server sessions:
+
+User
+
+↓
+
+JWT
+
+↓
+
+Server verifies signature
+
+↓
+
+No session lookup required.
+
+Advantages:
+
+Stateless
+
+Faster
+
+Scalable
+
+Works well with APIs and microservices
+
+
+
+---
+
+Why JWT Can Become Dangerous
+
+If:
+
+Secret key is weak
+
+Algorithm validation is incorrect
+
+Tokens never expire
+
+
+Attackers may forge valid tokens.
+
+
+---
+
+⭐ Manager's "WHY" Questions
+
+Why is MFA preferred over passwords?
+
+Because passwords can be guessed, leaked, or reused. MFA adds another verification factor, making account compromise much harder.
+
+
+---
+
+Why is JWT preferred over server sessions?
+
+Stateless
+
+Better scalability
+
+Faster verification
+
+Ideal for distributed systems and APIs
+
+
+
+---
+
+Why are weak JWT secrets dangerous?
+
+Because attackers can forge valid tokens and impersonate users or escalate privileges without knowing the original password.
+
+
+---
+
+Interview / Review Summary (Remember These)
+
+Brute force = tries many passwords for one account.
+
+Credential stuffing = reuses leaked username/password pairs.
+
+Password spraying = tries one common password across many accounts.
+
+MFA greatly reduces the risk of stolen passwords but has weaknesses such as SIM swapping, MFA fatigue, and phishing.
+
+JWT is a signed authentication token with three parts: Header, Payload, and Signature.
+
+JWT security depends on strong signing keys, proper validation, and token expiration.
+
+
+These are exactly the kinds of fundamentals your manager emphasized: not just what these mechanisms are, but why they are used and why they are preferred over alternatives.
