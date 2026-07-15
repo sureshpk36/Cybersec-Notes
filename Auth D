@@ -1,0 +1,587 @@
+BLOCK D — Advanced Server Exploitation
+
+Objective: Learn how attackers exploit backend servers and cloud infrastructure after bypassing the web application.
+
+Topics:
+
+1. Server-Side Request Forgery (SSRF)
+
+
+2. Log Poisoning
+
+
+
+
+---
+
+Topic 1 — Server-Side Request Forgery (SSRF)
+
+What is SSRF?
+
+SSRF is a vulnerability where an attacker tricks a server into making requests on the attacker's behalf.
+
+Instead of attacking directly:
+
+Attacker
+      │
+      ▼
+Victim Server
+      │
+      ▼
+Internal Resources
+
+The server becomes the attacker's proxy.
+
+
+---
+
+Why is SSRF Dangerous?
+
+Normally:
+
+Attacker
+
+❌ Cannot access
+
+Internal Database
+
+But with SSRF:
+
+Attacker
+
+↓
+
+Victim Server
+
+↓
+
+Internal Database
+
+↓
+
+Response returned
+
+The server has access that the attacker doesn't.
+
+
+---
+
+Example
+
+Suppose an application fetches images.
+
+https://example.com/fetch?url=https://abc.com/image.jpg
+
+Developer thinks:
+
+> "I'll download whatever URL the user provides."
+
+
+
+Attacker changes it to:
+
+http://127.0.0.1/admin
+
+Now the server accesses its own internal admin page.
+
+
+---
+
+Cloud SSRF (Most Important)
+
+Cloud providers expose a Metadata Service.
+
+AWS example:
+
+http://169.254.169.254/
+
+This service may contain:
+
+IAM Role credentials
+
+Temporary access tokens
+
+Instance information
+
+
+If an SSRF vulnerability exists:
+
+Attacker
+
+↓
+
+Application Server
+
+↓
+
+169.254.169.254
+
+↓
+
+IAM Credentials
+
+↓
+
+AWS Account Access
+
+This is why SSRF is considered one of the most dangerous cloud vulnerabilities.
+
+
+---
+
+Why is SSRF Preferred by Attackers?
+
+It allows attackers to:
+
+Access internal services
+
+Scan private networks
+
+Reach cloud metadata
+
+Bypass firewalls
+
+Sometimes achieve Remote Code Execution
+
+
+
+---
+
+Types of SSRF
+
+Basic SSRF
+
+Server requests:
+
+http://internal-server
+
+
+---
+
+Blind SSRF
+
+The attacker doesn't see the response.
+
+Instead,
+
+they observe:
+
+DNS lookups
+
+Delays
+
+External callbacks
+
+
+Still useful for reconnaissance.
+
+
+---
+
+Preventing SSRF
+
+1. Allowlist URLs
+
+Instead of:
+
+Any URL
+
+Allow only:
+
+images.company.com
+
+
+---
+
+2. Block Internal Addresses
+
+Reject:
+
+127.0.0.1
+
+localhost
+
+169.254.169.254
+
+10.x.x.x
+
+172.16.x.x
+
+192.168.x.x
+
+
+---
+
+3. Network Segmentation
+
+Ensure backend services cannot freely access every internal system.
+
+
+---
+
+4. Disable Metadata Access
+
+Cloud providers now support:
+
+IMDSv2 (AWS)
+
+Metadata protections
+
+
+to reduce SSRF risks.
+
+
+---
+
+Manager's WHY Question
+
+Why is SSRF more dangerous in cloud?
+
+Because cloud metadata services expose temporary credentials.
+
+If attackers retrieve them,
+
+they may gain access to cloud resources without stealing passwords.
+
+
+---
+
+Topic 2 — Log Poisoning
+
+What is Log Poisoning?
+
+Applications record information into logs.
+
+Example:
+
+IP Address
+
+Browser
+
+URL
+
+Username
+
+Errors
+
+If user input is written to logs without validation, attackers can inject malicious content.
+
+
+---
+
+Example
+
+Application logs:
+
+GET /home
+
+User-Agent:
+Chrome
+
+Attacker changes:
+
+User-Agent:
+
+<?php system($_GET['cmd']); ?>
+
+The application logs it.
+
+Later,
+
+another vulnerability (such as LFI) causes the log file to be executed.
+
+Now:
+
+Attacker
+
+↓
+
+Injects PHP
+
+↓
+
+Log File
+
+↓
+
+LFI Includes Log
+
+↓
+
+PHP Executes
+
+↓
+
+Remote Code Execution
+
+
+---
+
+Why is Log Poisoning Dangerous?
+
+It can lead to:
+
+Remote Code Execution
+
+Persistent malicious code
+
+Hidden payloads
+
+Forensic confusion
+
+Tampered audit trails
+
+
+
+---
+
+Log Injection
+
+Even without code execution,
+
+attackers may manipulate logs.
+
+Example:
+
+Normal log:
+
+Login Failed
+
+User: John
+
+Attacker injects:
+
+Login Successful
+
+Admin Access Granted
+
+Now investigators may misinterpret events.
+
+
+---
+
+Why Sanitize Logs?
+
+Logs are used for:
+
+Incident Response
+
+SIEM
+
+Compliance
+
+Forensics
+
+
+If attackers can manipulate them,
+
+security teams may make incorrect decisions.
+
+
+---
+
+Preventing Log Poisoning
+
+Validate Input
+
+Never write raw user input directly into logs.
+
+
+---
+
+Encode Special Characters
+
+Prevent execution of injected code.
+
+
+---
+
+Least Privilege
+
+Logs should not be executable.
+
+
+---
+
+Secure Log Storage
+
+Use:
+
+Centralized logging
+
+Append-only logs
+
+Immutable storage
+
+
+
+---
+
+Manager's WHY Question
+
+Why sanitize log entries?
+
+Because logs are trusted during investigations.
+
+If attackers can inject or manipulate log content,
+
+they can hide attacks, mislead investigators, or exploit other vulnerabilities.
+
+
+---
+
+Enterprise Example (Barclays)
+
+Suppose an internal AI service logs every request.
+
+Bad implementation:
+
+Prompt:
+
+<User Input>
+
+Attacker submits malicious input.
+
+↓
+
+Logs store it.
+
+↓
+
+Another service processes logs unsafely.
+
+↓
+
+Potential compromise.
+
+Good implementation:
+
+Escape special characters.
+
+Validate input.
+
+Store logs securely.
+
+Restrict access.
+
+
+
+---
+
+BLOCK D Summary
+
+Attacker
+     │
+     ▼
+SSRF
+     │
+     ▼
+Internal Network
+     │
+     ▼
+Cloud Metadata
+     │
+     ▼
+IAM Credentials
+
+----------------------------
+
+Attacker
+     │
+     ▼
+Log Injection
+     │
+     ▼
+Poisoned Logs
+     │
+     ▼
+LFI / Execution
+     │
+     ▼
+Remote Code Execution
+
+
+---
+
+Manager's "WHY" Questions
+
+Why is SSRF dangerous?
+
+Because the attacker abuses the server's trusted network access to reach internal services and cloud metadata that are normally inaccessible.
+
+
+---
+
+Why block metadata services?
+
+Because they may expose temporary cloud credentials, which can lead to broader compromise of cloud resources.
+
+
+---
+
+Why use allowlists instead of blocklists for outbound requests?
+
+An allowlist only permits known, trusted destinations, making it much harder for attackers to reach unexpected internal or malicious endpoints.
+
+
+---
+
+Why sanitize log entries?
+
+Because logs are relied upon for monitoring, incident response, and forensics. Unsanitized logs can be manipulated, hide attacks, or even contribute to code execution when combined with other vulnerabilities.
+
+
+---
+
+Quick Interview Revision
+
+Q1. What is SSRF?
+
+A vulnerability where an attacker tricks a server into making unintended requests on their behalf.
+
+
+---
+
+Q2. Why is SSRF especially dangerous in cloud environments?
+
+Because it can provide access to cloud metadata services and temporary credentials if not properly protected.
+
+
+---
+
+Q3. What is Log Poisoning?
+
+Injecting malicious input into application logs, which may mislead investigations or, when combined with other vulnerabilities like LFI, lead to Remote Code Execution.
+
+
+---
+
+Q4. How do you prevent SSRF?
+
+Validate and allowlist URLs.
+
+Block internal/private IP ranges and metadata endpoints.
+
+Segment networks.
+
+Use cloud metadata protections (e.g., IMDSv2).
+
+
+
+---
+
+Q5. How do you prevent Log Poisoning?
+
+Sanitize and encode user input before logging.
+
+Store logs in secure, non-executable locations.
+
+Protect logs with proper access controls and integrity mechanisms.
+
+
+
+---
+
+One-line takeaway
+
+> SSRF exploits the server's trust to reach internal resources, while Log Poisoning exploits the trust placed in log data. Both vulnerabilities become especially dangerous when combined with other weaknesses, which is why layered defenses and secure design are essential.
