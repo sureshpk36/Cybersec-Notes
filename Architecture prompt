@@ -1,0 +1,527 @@
+# Enterprise Multi-Agent AI Platform - Detailed Problem Statement
+
+## Background
+
+We are designing a next-generation enterprise AI platform for a large financial institution.
+
+The platform performs document processing, policy validation, compliance checks, quality assurance, risk analysis and other enterprise workflows using multiple AI agents.
+
+This platform must satisfy enterprise-grade security requirements expected in banking environments while remaining scalable enough to expose individual AI capabilities as standalone enterprise products in the future.
+
+The objective is to design a modern, production-ready, zero-trust architecture that balances:
+
+- Security
+- Scalability
+- Performance
+- Governance
+- Auditability
+- Operational simplicity
+- Future extensibility
+
+The solution should be realistic using technologies available in 2026.
+
+---
+
+# Existing Architecture
+
+Current architecture follows a Supervisor-Agent pattern.
+
+```
+External Client
+      │
+      ▼
+Supervisor Agent
+      │
+ ┌────┼────┐
+ │    │    │
+ ▼    ▼    ▼
+OCR  Policy Quality
+```
+
+Characteristics:
+
+- Single supervisor exposed externally
+- Supervisor invokes downstream agents
+- Agents cannot communicate directly
+- Internal communication occurs inside same VPC
+- ARN/internal identity assumptions
+- Minimal authentication between internal agents
+- Shared trust boundary
+- Workflow execution handled by Supervisor
+
+Initially this architecture is simple and efficient.
+
+However the organization expects the platform to evolve into an enterprise marketplace where each agent becomes independently consumable.
+
+Future architecture:
+
+```
+External Client
+        │
+        ├─────────────► OCR Agent
+        ├─────────────► Policy Agent
+        ├─────────────► Quality Agent
+        └─────────────► Risk Agent
+```
+
+Each agent becomes its own reusable enterprise capability.
+
+---
+
+# Major Business Requirement
+
+Each agent must eventually become independently callable.
+
+Example:
+
+Different internal products may only require OCR.
+
+Other teams may only require Policy validation.
+
+External partners may only require Risk Assessment.
+
+Therefore every agent must support:
+
+- independent invocation
+- independent scaling
+- independent deployment
+- independent authorization
+- independent ownership
+- independent lifecycle
+
+Agents should become reusable enterprise services.
+
+---
+
+# New Design Philosophy
+
+Instead of a central Supervisor Agent making intelligent routing decisions, the platform should use a deterministic workflow engine.
+
+The workflow engine should only coordinate execution.
+
+It should never contain business intelligence.
+
+It should never behave like an AI agent.
+
+Its responsibilities include:
+
+- sequencing
+- retries
+- compensation
+- state management
+- approval gates
+- timeout handling
+- orchestration logic
+
+Business intelligence remains inside individual agents.
+
+---
+
+# Critical Design Constraints
+
+## 1. No Agent-to-Agent Communication
+
+Agents must never call other agents.
+
+Example:
+
+BAD
+
+OCR
+  │
+  ▼
+Policy
+  │
+  ▼
+Quality
+
+GOOD
+
+Workflow Engine
+
+calls
+
+OCR
+
+then
+
+Workflow Engine
+
+calls
+
+Policy
+
+then
+
+Workflow Engine
+
+calls
+
+Quality
+
+Each agent only talks to:
+
+- Workflow Engine
+- API Gateway
+- Approved enterprise services
+
+Never another agent.
+
+---
+
+## 2. No Shared Memory
+
+Agents must not access shared memory.
+
+No global memory store.
+
+No shared conversation context.
+
+No shared vector database accessible by every agent.
+
+Each request should contain everything the agent requires.
+
+---
+
+## 3. Stateless Agents
+
+Agents should be stateless.
+
+Any workflow state belongs to Workflow Engine.
+
+Any memory belongs to external state storage.
+
+Agents simply receive input and return output.
+
+Example:
+
+Input
+
+JSON
+
+↓
+
+Agent
+
+↓
+
+JSON
+
+No hidden internal state.
+
+---
+
+## 4. JSON-only Communication
+
+Agents should return structured JSON.
+
+No free-form inter-agent conversations.
+
+Example
+
+OCR returns
+
+{
+ "text":"..."
+}
+
+Policy returns
+
+{
+ "violations":[...]
+}
+
+Quality returns
+
+{
+ "score":94
+}
+
+Workflow engine consumes JSON outputs.
+
+---
+
+## 5. Zero Trust
+
+Assume every component can eventually become compromised.
+
+Trust nothing.
+
+Every request must authenticate independently.
+
+Every request must authorize independently.
+
+Every request must be validated independently.
+
+Being inside a VPC is NOT sufficient trust.
+
+---
+
+# Threat Model
+
+Assume:
+
+One agent becomes compromised.
+
+Questions:
+
+Can it call another agent?
+
+Can it steal credentials?
+
+Can it access workflow state?
+
+Can it access memory?
+
+Can it impersonate another service?
+
+Can it move laterally?
+
+Can it call enterprise databases?
+
+Can it access secrets?
+
+Can it call external internet?
+
+The architecture should minimize blast radius.
+
+Compromise of one component should not compromise the platform.
+
+---
+
+# Security Requirements
+
+The platform should include enterprise-grade controls such as:
+
+Workload Identity
+
+SPIFFE / SPIRE
+
+mTLS
+
+OAuth2
+
+OIDC
+
+Short-lived credentials
+
+Capability tokens
+
+Fine-grained authorization
+
+Policy engine
+
+OPA / Cedar
+
+Prompt firewall
+
+DLP
+
+Sandboxed tool execution
+
+Secret management
+
+Vault/KMS/HSM
+
+Immutable audit logs
+
+Distributed tracing
+
+Runtime detection
+
+eBPF/Falco
+
+Network segmentation
+
+Egress control
+
+Signed containers
+
+SBOM
+
+Admission controller
+
+Supply-chain security
+
+Human approval for critical actions
+
+Auto quarantine
+
+Kill switch
+
+Rate limiting
+
+Replay protection
+
+Nonce
+
+DPoP
+
+Request signing
+
+Schema validation
+
+Input validation
+
+Output validation
+
+Model governance
+
+Prompt versioning
+
+Model registry
+
+Policy enforcement
+
+---
+
+# Non-Functional Requirements
+
+High availability
+
+Horizontal scalability
+
+Low latency
+
+Fault tolerance
+
+Multi-region capable
+
+Tenant isolation
+
+Enterprise governance
+
+Observability
+
+Compliance
+
+GDPR
+
+SOC2
+
+ISO27001
+
+Financial regulations
+
+Cloud-native
+
+Kubernetes-ready
+
+Service mesh compatible
+
+Marketplace ready
+
+API-first
+
+Versioned APIs
+
+Independent deployment
+
+Independent scaling
+
+Independent ownership
+
+Minimal operational complexity
+
+---
+
+# Performance Constraints
+
+The solution should avoid unnecessary latency.
+
+Avoid authenticating through multiple gateways unless justified.
+
+Prefer cryptographic workload identities over heavyweight authentication where possible.
+
+Use caching where appropriate without weakening security.
+
+Support high request throughput.
+
+---
+
+# Questions to Solve
+
+Design the most secure enterprise architecture possible.
+
+Specifically answer:
+
+1. Overall architecture
+
+2. Component diagram
+
+3. Trust boundaries
+
+4. Authentication flow
+
+5. Authorization flow
+
+6. Identity model
+
+7. Workflow execution
+
+8. API Gateway strategy
+
+9. Workflow engine responsibilities
+
+10. Agent responsibilities
+
+11. Secrets management
+
+12. Communication flow
+
+13. Audit architecture
+
+14. Observability architecture
+
+15. Runtime security
+
+16. Network security
+
+17. Data security
+
+18. Blast radius analysis
+
+19. Threat model
+
+20. Attack scenarios
+
+21. Failure scenarios
+
+22. Recovery mechanisms
+
+23. Scalability considerations
+
+24. Performance optimizations
+
+25. Marketplace readiness
+
+26. Trade-offs
+
+27. Remaining weaknesses
+
+28. Future improvements
+
+29. Technology recommendations
+
+30. Final architecture diagram
+
+---
+
+# Expected Outcome
+
+The final architecture should represent a realistic enterprise-grade AI platform suitable for a large global bank in 2026.
+
+It should prioritize:
+
+- Zero Trust
+- Least Privilege
+- Defense in Depth
+- Secure by Default
+- Independent Agent Isolation
+- Minimal Blast Radius
+- High Performance
+- Enterprise Governance
+- Operational Simplicity
+- Future Marketplace Expansion
+
+The design should not be theoretical. Every recommended component should be implementable with mature technologies available today or expected to be production-ready in 2026. Where multiple options exist, explain the trade-offs and justify the recommended approach.
