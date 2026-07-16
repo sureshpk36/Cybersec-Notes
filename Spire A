@@ -1,0 +1,259 @@
+Your manager is raising two very valid enterprise architecture concerns. In fact, these are common criticisms of a naive RFC 8693 design.
+
+
+---
+
+Problem 1: Authorization Server is a Single Point of Failure
+
+Current flow:
+
+Proxy
+   │
+RFC 8693
+   ▼
+Authorization Server
+   │
+New Token
+   ▼
+Digital Agent
+
+If the Authorization Server is down:
+
+❌ No new tokens
+
+❌ No agent communication
+
+❌ Entire platform stops
+
+
+For a banking platform, that's unacceptable.
+
+
+---
+
+Problem 2: Token Exchange on Every Request
+
+Imagine:
+
+1000 requests/sec
+
+Current design:
+
+1000 Token Exchanges/sec
++
+1000 Agent Calls/sec
+
+You're effectively doubling the load.
+
+Latency becomes:
+
+Client
+  ↓
+Gateway
+  ↓
+Proxy
+  ↓
+Authorization Server
+  ↓
+Proxy
+  ↓
+Digital Agent
+
+Instead of:
+
+Client
+  ↓
+Gateway
+  ↓
+Proxy
+  ↓
+Digital Agent
+
+This adds an extra network round trip to every request.
+
+
+---
+
+Enterprise Solution (What Google, Microsoft, Banks do)
+
+Instead of exchanging a token per request, exchange per session or cache window.
+
+External App
+      │
+OAuth2
+      ▼
+Proxy
+      │
+      │
+Does cached delegated token exist?
+      │
+ ┌────┴─────┐
+ │          │
+Yes        No
+ │          │
+ │     RFC8693
+ │          │
+ │    Authorization Server
+ │          │
+ └────┬─────┘
+      │
+Cached Token
+      │
+      ▼
+Digital Agent
+
+
+---
+
+Cache the Delegated Token
+
+Instead of:
+
+Request 1 → RFC8693
+
+Request 2 → RFC8693
+
+Request 3 → RFC8693
+
+Do:
+
+Request 1
+
+↓
+
+RFC8693
+
+↓
+
+Token valid for 5 mins
+
+↓
+
+Use same token
+
+↓
+
+Request 2
+
+↓
+
+Request 3
+
+↓
+
+Request 4
+
+↓
+
+After expiry
+
+↓
+
+Exchange again
+
+Latency becomes almost zero after the first exchange.
+
+
+---
+
+High Availability Authorization Server
+
+Never deploy a single Authorization Server.
+
+Instead:
+
+Load Balancer
+                    │
+      ┌─────────────┼──────────────┐
+      ▼             ▼              ▼
+ Authorization   Authorization   Authorization
+ Server A        Server B        Server C
+
+If one dies,
+
+another immediately serves the request.
+
+This is standard HA deployment.
+
+
+---
+
+Better Architecture
+
+Instead of:
+
+Proxy
+
+↓
+
+Authorization Server
+
+↓
+
+Digital Agent
+
+Do
+
+HA Auth Cluster
+               ┌───────────────┐
+               │Token Cache     │
+               │Redis           │
+               └──────┬────────┘
+                      │
+Proxy
+      │
+Cache Hit?
+      │
+ ┌────┴─────┐
+ │          │
+Yes        No
+ │          │
+ │    RFC8693 Exchange
+ │          │
+ └────┬─────┘
+      │
+Digital Agent
+
+
+---
+
+Even Better (Large Enterprises)
+
+Many banks avoid RFC 8693 for every internal hop.
+
+They use:
+
+SPIFFE + mTLS for authenticating workloads.
+
+The original OAuth token is propagated unchanged or transformed once at the edge.
+
+Authorization decisions are enforced locally (e.g., by OPA or service-specific policies).
+
+
+RFC 8693 is then used only when the downstream service genuinely needs a different identity or a reduced scope, not for every call between every pair of services.
+
+
+---
+
+What I would recommend for your project
+
+For your architecture, a balanced enterprise design is:
+
+External App → API Gateway → OAuth2/OIDC
+
+API Gateway validates the user token once.
+
+Digital Agent Access Proxy checks OPA policies.
+
+RFC 8693 is used only when a different delegated scope is actually required, and delegated tokens are cached for their short lifetime.
+
+Internal service-to-service authentication uses SPIFFE + mTLS.
+
+Authorization Server is deployed as a highly available cluster behind a load balancer.
+
+
+This addresses both of your manager's concerns:
+
+No single point of failure (HA Authorization Server).
+
+Minimal latency (token caching and selective token exchange instead of per-request exchanges).
