@@ -1,0 +1,448 @@
+These are the highest-value notes from Blocks A–D. If you write only these in your notebook, you'll remember the core concepts and also be prepared for the kind of "why" questions your manager asks.
+
+
+---
+
+BLOCK A — Remote Code Execution (RCE)
+
+Definition
+
+> RCE allows an attacker to execute arbitrary code or commands on a target server.
+
+
+
+
+---
+
+Causes
+
+Improper input validation
+
+Unsafe deserialization
+
+Command injection
+
+Vulnerable third-party components
+
+Unsafe file upload
+
+
+
+---
+
+Impact
+
+Full server compromise
+
+Data theft
+
+Malware installation
+
+Privilege escalation
+
+Lateral movement
+
+
+
+---
+
+Prevention
+
+Validate all user input
+
+Secure coding practices
+
+Least Privilege
+
+Patch Management
+
+Web Application Firewall (WAF)
+
+
+
+---
+
+Why is RCE Critical?
+
+Because attackers can execute their own code and potentially take complete control of the server.
+
+
+---
+
+Remember
+
+> Never trust user input.
+
+
+
+
+---
+
+BLOCK B — Framework & Server Vulnerabilities
+
+Framework
+
+A framework provides reusable components for building applications.
+
+Examples:
+
+Spring Boot
+
+Apache Struts
+
+ASP.NET
+
+Django
+
+
+
+---
+
+Why use frameworks?
+
+Faster development
+
+Reusable code
+
+Standardization
+
+Built-in security features
+
+
+
+---
+
+Why do framework vulnerabilities affect many companies?
+
+One vulnerable framework can be used by thousands of applications.
+
+
+---
+
+Patch Lifecycle
+
+Researcher
+↓
+
+Find Bug
+↓
+
+Vendor Releases Patch
+↓
+
+CVE Published
+↓
+
+Attackers Build Exploit
+↓
+
+Organizations Patch
+
+
+---
+
+Why Patch?
+
+Because patches remove the root cause.
+
+A firewall or WAF only reduces risk; it doesn't eliminate the vulnerability.
+
+
+---
+
+Remember
+
+> Outdated software is one of the biggest attack surfaces.
+
+
+
+
+---
+
+BLOCK C — CMS & Plugin Vulnerabilities
+
+CMS
+
+Content Management System
+
+Examples:
+
+WordPress
+
+Drupal
+
+Joomla
+
+
+
+---
+
+Why are plugins dangerous?
+
+Every plugin adds:
+
+New code
+
+New permissions
+
+New attack surface
+
+
+
+---
+
+Third-Party Risk
+
+Your application inherits vulnerabilities from:
+
+Plugins
+
+Libraries
+
+Dependencies
+
+
+
+---
+
+Supply Chain Attack
+
+Instead of attacking your code,
+
+attackers exploit one of your dependencies.
+
+
+---
+
+Best Practices
+
+Remove unused plugins
+
+Update plugins regularly
+
+Install only trusted plugins
+
+Monitor CVEs
+
+Perform dependency scanning
+
+
+
+---
+
+Remember
+
+> Your application is only as secure as its weakest dependency.
+
+
+
+
+---
+
+BLOCK D — Enterprise Attacks
+
+APT (Advanced Persistent Threat)
+
+A sophisticated attacker focused on:
+
+Long-term access
+
+Stealth
+
+Persistence
+
+
+
+---
+
+Attack Lifecycle
+
+Reconnaissance
+
+↓
+
+Initial Access
+
+↓
+
+Execution
+
+↓
+
+Persistence
+
+↓
+
+Privilege Escalation
+
+↓
+
+Credential Access
+
+↓
+
+Lateral Movement
+
+↓
+
+Data Exfiltration
+
+
+---
+
+Web Shell
+
+A malicious script that provides remote control over a compromised server.
+
+Example:
+
+China Chopper
+
+
+
+---
+
+Zero-Day
+
+A vulnerability exploited before a patch is available.
+
+
+---
+
+Incident Response
+
+Identify
+
+↓
+
+Contain
+
+↓
+
+Eradicate
+
+↓
+
+Recover
+
+↓
+
+Lessons Learned
+
+
+---
+
+Defense in Depth
+
+WAF
+
+↓
+
+Authentication
+
+↓
+
+Patch Management
+
+↓
+
+EDR
+
+↓
+
+Monitoring
+
+↓
+
+Incident Response
+
+
+---
+
+Remember
+
+> Some attacks cannot be prevented, so detection and response are equally important.
+
+
+
+
+---
+
+⭐ Manager's "WHY" Questions (Most Important)
+
+These are the questions you should always be able to answer:
+
+Why is RCE considered critical?
+
+Why are frameworks common attack targets?
+
+Why is patching preferred over relying only on a firewall?
+
+Why are third-party plugins/libraries risky?
+
+Why should unused plugins be removed?
+
+Why is Defense in Depth better than relying on a single security control?
+
+Why is Threat Intelligence important?
+
+Why are Zero-Day vulnerabilities difficult to defend against?
+
+Why do attackers install web shells?
+
+Why is Least Privilege important after an attacker gains access?
+
+
+
+---
+
+⭐ One-Page Final Revision
+
+RCE
+→ Execute attacker code
+→ Critical
+→ Prevent with validation + patching
+
+↓
+
+Frameworks
+→ Faster development
+→ Patch regularly
+→ One bug affects many apps
+
+↓
+
+CMS & Plugins
+→ More features
+→ Larger attack surface
+→ Remove unused plugins
+→ Update dependencies
+
+↓
+
+Enterprise Attacks
+→ APT
+→ Web Shell
+→ Zero-Day
+→ Incident Response
+→ Defense in Depth
+
+📝 Five Golden Rules (Write these at the end of your notebook)
+
+1. Never trust user input.
+
+
+2. Patch vulnerabilities quickly.
+
+
+3. Minimize the attack surface (remove unnecessary software/plugins).
+
+
+4. Apply the Principle of Least Privilege.
+
+
+5. Use Defense in Depth—no single security control is sufficient.
+
+
+
+These five principles are applicable across almost every security topic you'll encounter, and they reflect the fundamental mindset your manager has been encouraging you to develop.
