@@ -1,0 +1,80 @@
+<mxfile host="app.diagrams.net" modified="2026-07-22T00:00:00.000Z" agent="ChatGPT" version="24.7.0">
+  <diagram id="C2" name="Secure Remote MCP">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="bar" value="Barclays Trusted Network" style="swimlane;rounded=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="980" height="560" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cloud" value="Figma Cloud" style="swimlane;rounded=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="20" width="320" height="560" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="dev" value="Developer&#10;Claude Code" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="bar">
+          <mxGeometry x="40" y="220" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="entra" value="Microsoft Entra ID" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="bar">
+          <mxGeometry x="220" y="60" width="150" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="broker" value="Token Broker&#10;(RFC 8693)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="bar">
+          <mxGeometry x="220" y="220" width="150" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gw" value="API Gateway" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="bar">
+          <mxGeometry x="430" y="220" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="proxy" value="Secure MCP Proxy&#10;+ DPoP Validation" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="bar">
+          <mxGeometry x="620" y="220" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="policy" value="OPA / Policy Engine" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="bar">
+          <mxGeometry x="620" y="80" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="audit" value="SIEM / Audit Logs" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="bar">
+          <mxGeometry x="620" y="380" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="mcp" value="Remote MCP Server" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="cloud">
+          <mxGeometry x="70" y="220" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="figma" value="Figma APIs" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="cloud">
+          <mxGeometry x="70" y="360" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" value="OAuth Login" edge="1" source="dev" target="entra" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="Token Exchange" edge="1" source="dev" target="broker" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="Short-lived Access Token" edge="1" source="broker" target="gw" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="DPoP + OAuth" edge="1" source="gw" target="proxy" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="Policy Decision" edge="1" source="proxy" target="policy" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="Approved Request" edge="1" source="proxy" target="mcp" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="Figma Operations" edge="1" source="mcp" target="figma" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="Audit Events" edge="1" source="proxy" target="audit" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
