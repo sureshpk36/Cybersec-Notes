@@ -1,0 +1,1151 @@
+📚 Identity & Authentication - Quick Revision Notes (Manager Meeting)
+
+
+---
+
+1. Identity
+
+Identity = Who you are
+
+Examples:
+
+User (Suresh)
+
+Employee ID
+
+Email
+
+Service Account
+
+Application
+
+
+Identity is claimed, not yet verified.
+
+
+---
+
+2. Authentication
+
+Authentication = Proving who you are
+
+Question answered:
+
+> "Who are you?"
+
+
+
+Examples:
+
+Password
+
+MFA
+
+Fingerprint
+
+Certificate
+
+
+Authentication verifies identity.
+
+
+---
+
+3. Authorization
+
+Authorization = What you're allowed to do
+
+Question answered:
+
+> "What can you access?"
+
+
+
+Example:
+
+User logs in successfully
+
+↓
+
+Can Read ✔
+
+Can Write ✔
+
+Can Delete ✖
+
+Authentication can succeed while authorization fails.
+
+
+---
+
+4. Credentials
+
+Credentials prove identity.
+
+Examples:
+
+Password
+
+OTP
+
+Certificate
+
+Private Key
+
+Smart Card
+
+
+Identity ≠ Credential
+
+
+---
+
+5. Principal
+
+A Principal is any entity that can authenticate.
+
+Examples:
+
+User
+
+Service
+
+Application
+
+API
+
+Claude
+
+MCP Server
+
+
+
+---
+
+6. Session
+
+Session remembers an authenticated user.
+
+Traditional Web
+
+Login
+
+↓
+
+Session Created
+
+↓
+
+Browser Stores Cookie
+
+↓
+
+Cookie Sent
+
+↓
+
+Server Finds Session
+
+
+---
+
+7. Token
+
+Token proves authentication already happened.
+
+Password
+
+↓
+
+Authenticate
+
+↓
+
+Token
+
+↓
+
+Used for API calls
+
+Never send passwords on every request.
+
+
+---
+
+8. Claims
+
+Claims are information inside tokens.
+
+Examples:
+
+Name
+
+Email
+
+Role
+
+Groups
+
+Department
+
+
+Claims help authorization.
+
+
+---
+
+9. Authentication Flow
+
+Identity
+
+↓
+
+Credentials
+
+↓
+
+Authentication
+
+↓
+
+Token Issued
+
+↓
+
+Claims
+
+↓
+
+Authorization
+
+↓
+
+Access Granted
+
+
+---
+
+BLOCK B — SSO & SAML
+
+SSO
+
+Single Sign-On
+
+Login once
+
+↓
+
+Access multiple applications
+
+Benefits:
+
+Better UX
+
+Centralized Authentication
+
+MFA everywhere
+
+One identity
+
+
+
+---
+
+Identity Provider (IdP)
+
+Authenticates users.
+
+Examples:
+
+Microsoft Entra ID
+
+Okta
+
+Ping
+
+Keycloak
+
+
+Responsibilities:
+
+Verify Password
+
+MFA
+
+Issue Tokens
+
+Manage Users
+
+
+
+---
+
+Service Provider (SP)
+
+Provides application.
+
+Examples:
+
+Claude
+
+Jira
+
+ServiceNow
+
+
+SP trusts IdP.
+
+SP doesn't authenticate passwords.
+
+
+---
+
+Federation
+
+Two systems trust each other.
+
+Example
+
+Claude
+
+↓
+
+Trusts
+
+↓
+
+Microsoft Entra
+
+
+---
+
+SAML
+
+Security Assertion Markup Language
+
+Purpose:
+
+Exchange authentication information between IdP and SP.
+
+SAML ≠ Authentication
+
+SAML = Protocol
+
+
+---
+
+SAML Flow
+
+User
+
+↓
+
+Claude
+
+↓
+
+Redirect
+
+↓
+
+Entra
+
+↓
+
+Password
+
+↓
+
+MFA
+
+↓
+
+SAML Assertion
+
+↓
+
+Claude Validates
+
+↓
+
+Login Success
+
+
+---
+
+SAML Assertion
+
+Contains
+
+User
+
+Email
+
+Roles
+
+Expiry
+
+
+Digitally Signed.
+
+
+---
+
+SSO vs SAML
+
+SSO
+
+↓
+
+Business Concept
+
+SAML
+
+↓
+
+Technical Protocol
+
+
+---
+
+BLOCK C — OAuth 2.0
+
+OAuth = Authorization Framework
+
+Purpose:
+
+Grant limited access
+
+WITHOUT sharing password.
+
+
+---
+
+OAuth Roles
+
+Resource Owner
+
+↓
+
+User
+
+Client
+
+↓
+
+Claude
+
+Authorization Server
+
+↓
+
+Microsoft Entra
+
+Resource Server
+
+↓
+
+Microsoft Graph API
+
+
+---
+
+OAuth Flow
+
+User
+
+↓
+
+Claude
+
+↓
+
+Entra
+
+↓
+
+Login
+
+↓
+
+Authorization Code
+
+↓
+
+Claude
+
+↓
+
+Access Token
+
+Refresh Token
+
+↓
+
+Microsoft Graph API
+
+
+---
+
+Access Token
+
+Used to call APIs.
+
+Short-lived.
+
+
+---
+
+Refresh Token
+
+Gets new Access Tokens.
+
+No login required again.
+
+
+---
+
+Authorization Code
+
+Temporary code.
+
+Exchanged for Tokens.
+
+
+---
+
+PKCE
+
+Protects Authorization Code.
+
+Prevents interception attacks.
+
+
+---
+
+Scopes
+
+Define permissions.
+
+Examples:
+
+User.Read
+
+Mail.Read
+
+Files.Read
+
+
+Least Privilege.
+
+
+---
+
+BLOCK D — OpenID Connect (OIDC)
+
+OIDC = Authentication Protocol
+
+Built on OAuth.
+
+OAuth
+
+↓
+
+Authorization
+
+OIDC
+
+↓
+
+Authentication
+
+
+---
+
+ID Token
+
+Answers
+
+> Who is the user?
+
+
+
+Contains:
+
+Name
+
+Email
+
+Groups
+
+Tenant
+
+
+Used by Claude.
+
+
+---
+
+Access Token
+
+Answers
+
+> What APIs can be accessed?
+
+
+
+Used by APIs.
+
+
+---
+
+Difference
+
+ID Token
+
+↓
+
+Client
+
+↓
+
+Identity
+
+Access Token
+
+↓
+
+API
+
+↓
+
+Authorization
+
+
+---
+
+OIDC Flow
+
+User
+
+↓
+
+Claude
+
+↓
+
+Entra
+
+↓
+
+Login
+
+↓
+
+Authorization Code
+
+↓
+
+ID Token
+
+Access Token
+
+↓
+
+Claude Reads ID Token
+
+↓
+
+Graph API Uses Access Token
+
+
+---
+
+UserInfo Endpoint
+
+Returns additional user profile.
+
+
+---
+
+Discovery Endpoint
+
+/.well-known/openid-configuration
+
+Provides OIDC configuration.
+
+
+---
+
+Nonce
+
+Random value.
+
+Protects against replay attacks.
+
+
+---
+
+BLOCK E — Microsoft Entra ID
+
+Microsoft's IAM platform.
+
+Responsibilities
+
+✅ Identity Management
+
+✅ Authentication
+
+✅ Authorization
+
+✅ Token Issuance
+
+✅ SSO
+
+✅ Federation
+
+
+---
+
+Authentication Flow
+
+Employee
+
+↓
+
+Claude
+
+↓
+
+Entra
+
+↓
+
+Password
+
+↓
+
+MFA
+
+↓
+
+Conditional Access
+
+↓
+
+Tokens Issued
+
+
+---
+
+Conditional Access
+
+Checks:
+
+Device
+
+Location
+
+Risk
+
+MFA
+
+Compliance
+
+
+Not just password.
+
+
+---
+
+App Registration
+
+Application Identity
+
+Contains:
+
+Client ID
+
+Redirect URI
+
+Secrets
+
+API Permissions
+
+
+
+---
+
+Enterprise Application
+
+Organization's configuration of an app.
+
+Contains:
+
+Users
+
+Groups
+
+SSO
+
+Policies
+
+
+
+---
+
+Backend Validation
+
+Backend checks:
+
+✅ Signature
+
+✅ Expiry
+
+✅ Audience
+
+✅ Issuer
+
+✅ Scopes
+
+Then grants access.
+
+
+---
+
+BLOCK F — Claude Enterprise Authentication
+
+Claude never stores enterprise passwords.
+
+Flow
+
+Employee
+
+↓
+
+Claude
+
+↓
+
+Redirect
+
+↓
+
+Microsoft Entra
+
+↓
+
+Password
+
+↓
+
+MFA
+
+↓
+
+Conditional Access
+
+↓
+
+ID Token
+
+Access Token
+
+↓
+
+Claude Session
+
+↓
+
+Claude Calls APIs
+
+↓
+
+Backend Validates Token
+
+↓
+
+Response
+
+
+---
+
+User Authentication
+
+Employee
+
+↓
+
+Entra
+
+↓
+
+Identity Verified
+
+
+---
+
+Service Authentication
+
+Claude
+
+↓
+
+MCP
+
+↓
+
+Backend
+
+↓
+
+Service-to-Service Authentication
+
+Examples:
+
+OAuth
+
+mTLS
+
+SPIFFE/SPIRE
+
+Managed Identity
+
+
+
+---
+
+Why Doesn't Claude Store Passwords?
+
+Because authentication is centralized in Entra.
+
+Benefits:
+
+One identity
+
+MFA
+
+SSO
+
+Easier management
+
+Better security
+
+
+
+---
+
+⭐ Claude Enterprise Login Methods
+
+1. SAML SSO
+
+
+2. OIDC SSO
+
+
+3. Microsoft Entra ID
+
+
+4. Okta
+
+
+5. Google Workspace
+
+
+6. Magic Link (if SSO not enforced)
+
+
+7. JIT Provisioning
+
+
+8. SCIM Provisioning
+
+
+
+
+---
+
+⭐ Manager's Favorite Questions
+
+Authentication vs Authorization
+
+Authentication → Who are you?
+
+Authorization → What can you do?
+
+
+---
+
+OAuth vs OIDC
+
+OAuth → Authorization
+
+OIDC → Authentication + Authorization
+
+
+---
+
+ID Token vs Access Token
+
+ID Token → Client → Identity
+
+Access Token → API → Authorization
+
+
+---
+
+SSO vs SAML
+
+SSO → Business concept
+
+SAML → Protocol implementing SSO
+
+
+---
+
+IdP vs SP
+
+IdP → Authenticates users (Entra)
+
+SP → Provides service (Claude)
+
+
+---
+
+Why Entra?
+
+Centralized Identity
+
+MFA
+
+SSO
+
+Token Issuance
+
+Conditional Access
+
+
+
+---
+
+Why Tokens?
+
+Don't send passwords repeatedly
+
+Short-lived
+
+Secure
+
+Scalable
+
+Stateless APIs
+
+
+
+---
+
+Why PKCE?
+
+Protects Authorization Code from interception.
+
+
+---
+
+Why Conditional Access?
+
+Authentication decisions are based on context:
+
+User
+
+Device
+
+Location
+
+Risk
+
+Time
+
+Compliance
+
+
+
+---
+
+⭐ End-to-End Enterprise Flow (Most Important)
+
+Employee
+      │
+      ▼
+Claude Enterprise
+      │
+Redirect
+      ▼
+Microsoft Entra ID
+      │
+Password
+      │
+MFA
+      │
+Conditional Access
+      ▼
+Authentication Success
+      │
+      ▼
+Authorization Code
+      │
+      ▼
+ID Token + Access Token
+      │
+      ▼
+Claude Creates Session
+      │
+      ▼
+Claude Calls MCP / Enterprise APIs
+      │
+Bearer Access Token
+      ▼
+Backend Validates
+(Signature, Issuer, Audience, Expiry, Scopes)
+      │
+      ▼
+Authorization
+      │
+      ▼
+Business Response
+
+⭐ 10 Questions to Ask Yourself for Any Architecture Box (Your Manager's Mindset)
+
+For every component (Claude, Entra, MCP, Backend, etc.), be able to answer:
+
+1. Why does it exist?
+
+
+2. What problem does it solve?
+
+
+3. Why is it needed?
+
+
+4. How does it authenticate?
+
+
+5. How does it authorize?
+
+
+6. What does it trust?
+
+
+7. What happens if it's compromised?
+
+
+8. What alternatives exist?
+
+
+9. Why is this approach preferred?
+
+
+10. What happens if this component is removed?
+
+
+
+If you answer these confidently, you'll demonstrate the architectural thinking your manager has been encouraging throughout your internship rather than just recalling terminology.
